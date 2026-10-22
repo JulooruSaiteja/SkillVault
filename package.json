@@ -1,0 +1,32 @@
+{
+  "name": "skillvault",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SkillVault - Curated Video Learning Platform for Computing, Software Engineering, and Data Science",
+  "type": "module",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=client",
+    "dev:client": "npm run dev --workspace=client",
+    "dev:server": "npm run dev --workspace=server",
+    "build": "npm run build --workspace=client",
+    "build:client": "npm run build --workspace=client",
+    "start:server": "npm run start --workspace=server",
+    "test": "npm run test --workspace=server",
+    "test:server": "npm run test --workspace=server",
+    "verify": "node scripts/verify-project.js"
+  },
+  "keywords": [
+    "skillvault",
+    "mern",
+    "react",
+    "express",
+    "mongodb",
+    "learning-platform"
+  ],
+  "author": "SkillVault Team",
+  "license": "ISC"
+}
