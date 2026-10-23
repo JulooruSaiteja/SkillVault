@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 
 import config from './config/env.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
+import authRoutes from './routes/authRoutes.js';
 
 const app = express();
 
@@ -59,6 +60,8 @@ app.use(cookieParser(config.cookieSecret));
 // ------------------------------------
 // API Routes
 // ------------------------------------
+app.use('/api/auth', authRoutes);
+
 // Route modules will be mounted here in later phases, e.g.:
 //   app.use('/api/auth', authRoutes);
 //   app.use('/api/categories', categoryRoutes);
