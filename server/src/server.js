@@ -1,5 +1,6 @@
 import config, { validateEnv } from './config/env.js';
 import app from './app.js';
+import { connectDatabase, disconnectDatabase } from './config/database.js';
 
 // ------------------------------------
 // Validate required configuration
@@ -7,28 +8,46 @@ import app from './app.js';
 validateEnv();
 
 // ------------------------------------
-// Start HTTP Server
+// Start HTTP Server & Connect Database
 // ------------------------------------
 const PORT = config.port;
 
-const server = app.listen(PORT, () => {
-  console.log(`\n========================================`);
-  console.log(`  SkillVault Server`);
-  console.log(`  Environment: ${config.nodeEnv}`);
-  console.log(`  Port:        ${PORT}`);
-  console.log(`  CORS Origin: ${config.clientOrigin}`);
-  console.log(`========================================\n`);
-});
+let server;
+
+async function startServer() {
+  try {
+    await connectDatabase();
+
+    server = app.listen(PORT, () => {
+      console.log(`\n========================================`);
+      console.log(`  SkillVault Server`);
+      console.log(`  Environment: ${config.nodeEnv}`);
+      console.log(`  Port:        ${PORT}`);
+      console.log(`  CORS Origin: ${config.clientOrigin}`);
+      console.log(`========================================\n`);
+    });
+  } catch (err) {
+    console.error('Failed to initialize server:', err.message);
+    process.exit(1);
+  }
+}
 
 // ------------------------------------
 // Graceful Shutdown
 // ------------------------------------
-function shutdown(signal) {
+async function shutdown(signal) {
   console.log(`\n[${signal}] Shutting down gracefully...`);
-  server.close(() => {
-    console.log('Server closed.');
+
+  if (server) {
+    server.close(async () => {
+      console.log('HTTP server closed.');
+      await disconnectDatabase();
+      process.exit(0);
+    });
+  } else {
+    await disconnectDatabase();
     process.exit(0);
-  });
+  }
 
   // Force exit after 10 seconds if graceful shutdown stalls
   setTimeout(() => {
@@ -40,7 +59,6 @@ function shutdown(signal) {
 process.on('SIGTERM', () => shutdown('SIGTERM'));
 process.on('SIGINT', () => shutdown('SIGINT'));
 
-// Handle unhandled rejections and uncaught exceptions
 process.on('unhandledRejection', (reason) => {
   console.error('[UNHANDLED REJECTION]', reason);
   shutdown('UNHANDLED_REJECTION');
@@ -50,3 +68,5 @@ process.on('uncaughtException', (err) => {
   console.error('[UNCAUGHT EXCEPTION]', err);
   shutdown('UNCAUGHT_EXCEPTION');
 });
+
+startServer();

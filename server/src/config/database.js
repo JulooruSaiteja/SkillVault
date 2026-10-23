@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import config from './env.js';
 
 /**
@@ -7,15 +8,27 @@ import config from './env.js';
 
 let isConnected = false;
 
+// Global connection events
+mongoose.connection.on('error', (err) => {
+  console.error('[Database] MongoDB connection error:', err.message);
+});
+
+mongoose.connection.on('disconnected', () => {
+  isConnected = false;
+  if (config.isDev) {
+    console.warn('[Database] MongoDB disconnected.');
+  }
+});
+
 /**
  * Connect to MongoDB using the configured MONGODB_URI.
- * Dynamically resolves Mongoose when installed (Phase 4).
  *
- * @returns {Promise<any>}
+ * @returns {Promise<typeof mongoose>}
  */
 export async function connectDatabase() {
-  if (isConnected) {
-    return;
+  if (isConnected || mongoose.connection.readyState === 1) {
+    isConnected = true;
+    return mongoose;
   }
 
   const uri = config.mongoUri;
@@ -24,10 +37,6 @@ export async function connectDatabase() {
   }
 
   try {
-    // Attempt dynamic import of mongoose ODM
-    const mongooseModule = await import('mongoose');
-    const mongoose = mongooseModule.default || mongooseModule;
-
     const connection = await mongoose.connect(uri);
     isConnected = true;
 
@@ -35,21 +44,9 @@ export async function connectDatabase() {
       console.log(`[Database] MongoDB connected: ${connection.connection.host}`);
     }
 
-    mongoose.connection.on('error', (err) => {
-      console.error('[Database] MongoDB connection error:', err);
-    });
-
-    mongoose.connection.on('disconnected', () => {
-      isConnected = false;
-      console.warn('[Database] MongoDB disconnected.');
-    });
-
     return connection;
   } catch (err) {
-    if (err.code === 'ERR_MODULE_NOT_FOUND') {
-      console.log('[Database] Mongoose driver not yet installed (scheduled for Phase 4). Database module ready.');
-      return null;
-    }
+    isConnected = false;
     console.error('[Database] Failed to connect to MongoDB:', err.message);
     throw err;
   }
@@ -61,24 +58,22 @@ export async function connectDatabase() {
  * @returns {Promise<void>}
  */
 export async function disconnectDatabase() {
-  if (!isConnected) {
-    return;
-  }
-
-  try {
-    const mongooseModule = await import('mongoose');
-    const mongoose = mongooseModule.default || mongooseModule;
+  if (mongoose.connection.readyState !== 0) {
     await mongoose.connection.close();
-    isConnected = false;
-    console.log('[Database] MongoDB connection closed.');
-  } catch {
-    isConnected = false;
   }
+  isConnected = false;
 }
 
+/**
+ * Get current database connection status.
+ *
+ * @returns {{ isConnected: boolean, readyState: number, uriConfigured: boolean }}
+ */
 export function getDatabaseStatus() {
+  const ready = mongoose.connection.readyState === 1;
   return {
-    isConnected,
+    isConnected: ready,
+    readyState: mongoose.connection.readyState,
     uriConfigured: Boolean(config.mongoUri)
   };
 }
