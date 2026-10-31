@@ -1,0 +1,229 @@
+/* Bookmarks Page Styles */
+
+.bookmarks-header {
+  margin-bottom: 2rem;
+}
+
+.bookmarks-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.bookmarks-title {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.bookmarks-count-pill {
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  background-color: rgba(56, 189, 248, 0.1);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+}
+
+.bookmarks-loading {
+  text-align: center;
+  padding: 3.5rem 1rem;
+}
+
+.bookmarks-loading-text {
+  color: var(--color-text-muted);
+}
+
+.bookmarks-error-banner {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  background-color: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  text-align: center;
+}
+
+.bookmarks-error-text {
+  color: var(--color-danger, #f87171);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.bookmarks-empty-card {
+  text-align: center;
+  padding: 3.5rem 2rem;
+  max-width: 560px;
+  margin: 2rem auto;
+}
+
+.bookmarks-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.bookmarks-empty-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.bookmarks-empty-desc {
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.bookmarks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.bookmark-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.25rem;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.bookmark-card.is-removing {
+  opacity: 0.5;
+}
+
+.bookmark-card.is-archived {
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.bookmark-badges-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.bookmark-skill-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background-color: rgba(56, 189, 248, 0.1);
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-sm);
+}
+
+.bookmark-duration {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.bookmark-transcript-badge {
+  font-size: 0.7rem;
+  color: var(--color-success);
+  background-color: rgba(52, 211, 153, 0.1);
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-sm);
+}
+
+.bookmark-completed-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-success);
+  background-color: rgba(52, 211, 153, 0.15);
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-sm);
+}
+
+.bookmark-archived-banner {
+  background-color: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.65rem;
+  margin-bottom: 0.75rem;
+}
+
+.bookmark-archived-label {
+  font-size: 0.75rem;
+  color: var(--color-danger, #f87171);
+  font-weight: 600;
+  display: block;
+}
+
+.bookmark-archived-text {
+  margin: 0.15rem 0 0 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.bookmark-video-title {
+  font-size: 1.05rem;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.4;
+}
+
+.bookmark-video-link {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.bookmark-video-link.is-archived {
+  color: var(--color-text-muted);
+}
+
+.bookmark-playlist-connection {
+  font-size: 0.8rem;
+  color: var(--color-text-dim);
+  margin: 0 0 0.75rem 0;
+}
+
+.bookmark-playlist-link {
+  color: var(--color-warning);
+}
+
+.bookmark-progress-box {
+  margin: 0.5rem 0 1rem 0;
+}
+
+.bookmark-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--color-text-dim);
+  margin-bottom: 0.25rem;
+}
+
+.bookmark-progress-track {
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.bookmark-progress-fill {
+  height: 100%;
+  background-color: var(--color-primary);
+}
+
+.bookmark-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.bookmark-watch-btn {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.75rem;
+}
+
+.bookmark-remove-btn {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.65rem;
+  color: var(--color-text-dim);
+}
