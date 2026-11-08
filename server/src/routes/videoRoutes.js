@@ -2,6 +2,12 @@ import express from 'express';
 import { getVideos, getVideoById } from '../controllers/videoController.js';
 import { saveProgress, getProgress } from '../controllers/progressController.js';
 import { addBookmark, removeBookmark, checkBookmark } from '../controllers/bookmarkController.js';
+import { getVideoNotes, generateVideoNotes } from '../controllers/noteController.js';
+import {
+  getVideoQuiz,
+  generateVideoQuiz,
+  submitVideoQuiz
+} from '../controllers/quizController.js';
 import { optionalAuth, requireAuth } from '../middleware/auth.js';
 
 const router = express.Router();
@@ -54,5 +60,40 @@ router.post('/:identifier/bookmark', requireAuth, addBookmark);
  * @access  Private
  */
 router.delete('/:identifier/bookmark', requireAuth, removeBookmark);
+
+/**
+ * @route   GET /api/videos/:identifier/notes
+ * @desc    Get cached AI notes and quota status
+ * @access  Public (optionalAuth)
+ */
+router.get('/:identifier/notes', optionalAuth, getVideoNotes);
+
+/**
+ * @route   POST /api/videos/:identifier/notes
+ * @desc    Generate AI notes using Gemini 3.8 Flash
+ * @access  Private (requireAuth)
+ */
+router.post('/:identifier/notes', requireAuth, generateVideoNotes);
+
+/**
+ * @route   GET /api/videos/:identifier/quiz
+ * @desc    Get cached AI quiz and quota status
+ * @access  Public (optionalAuth)
+ */
+router.get('/:identifier/quiz', optionalAuth, getVideoQuiz);
+
+/**
+ * @route   POST /api/videos/:identifier/quiz
+ * @desc    Generate AI quiz using Gemini 3.1 Flash Lite
+ * @access  Private (requireAuth)
+ */
+router.post('/:identifier/quiz', requireAuth, generateVideoQuiz);
+
+/**
+ * @route   POST /api/videos/:identifier/quiz/submit
+ * @desc    Submit answers for evaluation and score calculation (X/5 marks)
+ * @access  Private (requireAuth)
+ */
+router.post('/:identifier/quiz/submit', requireAuth, submitVideoQuiz);
 
 export default router;

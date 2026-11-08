@@ -161,9 +161,86 @@ export async function getMe(req, res, next) {
   }
 }
 
+/**
+ * Update authenticated user's profile details.
+ * Note: Role cannot be updated or elevated through profile endpoints.
+ */
+export async function updateProfile(req, res, next) {
+  try {
+    const { name } = req.body;
+
+    if (!name || typeof name !== 'string' || name.trim().length < 2) {
+      throw ApiError.badRequest('Name must be at least 2 characters long');
+    }
+
+    if (name.trim().length > 50) {
+      throw ApiError.badRequest('Name cannot exceed 50 characters');
+    }
+
+    const user = await User.findById(req.user._id);
+    if (!user || !user.isActive) {
+      throw ApiError.notFound('User account not found');
+    }
+
+    user.name = name.trim();
+    // Role and email are strictly immutable via profile updates
+    await user.save();
+
+    return ApiResponse.ok(res, 'Profile updated successfully', {
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        isActive: user.isActive,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+/**
+ * Change authenticated user's password with current password verification.
+ */
+export async function changePassword(req, res, next) {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || typeof currentPassword !== 'string') {
+      throw ApiError.badRequest('Current password is required');
+    }
+
+    if (!newPassword || typeof newPassword !== 'string' || newPassword.length < 6) {
+      throw ApiError.badRequest('New password must be at least 6 characters long');
+    }
+
+    const user = await User.findById(req.user._id).select('+password');
+    if (!user || !user.isActive) {
+      throw ApiError.notFound('User account not found');
+    }
+
+    const isMatch = await comparePassword(currentPassword, user.password);
+    if (!isMatch) {
+      throw ApiError.badRequest('Current password is incorrect');
+    }
+
+    user.password = await hashPassword(newPassword);
+    await user.save();
+
+    return ApiResponse.ok(res, 'Password changed successfully');
+  } catch (err) {
+    next(err);
+  }
+}
+
 export default {
   register,
   login,
   logout,
-  getMe
+  getMe,
+  updateProfile,
+  changePassword
 };

@@ -1,0 +1,32 @@
+/* 404 Not Found Page Styles */
+
+.not-found-container {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.not-found-code {
+  font-size: 5rem;
+  font-weight: 900;
+  color: var(--color-primary);
+  line-height: 1;
+  margin-bottom: 1rem;
+  font-family: var(--font-mono);
+}
+
+.not-found-desc {
+  margin: 1rem 0;
+}
+
+.not-found-code-badge {
+  color: var(--color-primary);
+  background-color: var(--color-surface);
+  padding: 0.2rem 0.4rem;
+  border-radius: var(--radius-sm);
+}
+
+.not-found-actions {
+  margin-top: 1.5rem;
+}

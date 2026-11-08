@@ -1,0 +1,92 @@
+/* Home Page Styles */
+
+.home-loading {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.home-loading-text {
+  color: var(--color-text-muted);
+}
+
+.home-error-banner {
+  max-width: 600px;
+  margin: 1.5rem auto 2.5rem;
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  background-color: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  text-align: center;
+}
+
+.home-error-message {
+  color: var(--color-danger, #f87171);
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.home-category-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.home-category-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.home-category-icon {
+  font-size: 1.5rem;
+}
+
+.home-category-name {
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.home-category-desc {
+  color: var(--color-text-muted);
+  margin: 0.75rem 0 1rem 0;
+  font-size: 0.9rem;
+}
+
+.home-skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.home-skill-tag {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: border-color 0.15s ease;
+}
+
+.home-skill-tag:hover {
+  border-color: var(--color-primary);
+  text-decoration: none;
+}
+
+.home-more-skills {
+  font-size: 0.75rem;
+  color: var(--color-text-dim);
+  align-self: center;
+}
+
+.home-card-btn {
+  width: 100%;
+}
+
+.home-fallback-desc {
+  color: var(--color-text-muted);
+  margin: 0.75rem 0;
+}

@@ -1,0 +1,24 @@
+/* ProtectedRoute Styles */
+.auth-loading-state {
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+.auth-loading-text {
+  color: var(--color-text-muted);
+}
+
+.access-denied-container {
+  max-width: 600px;
+  margin: 3rem auto;
+  text-align: center;
+}
+
+.access-denied-title {
+  color: var(--color-danger, #e53e3e);
+}
+
+.access-denied-message {
+  margin: 1rem 0;
+  color: var(--color-text-muted);
+}

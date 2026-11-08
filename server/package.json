@@ -5,10 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch src/server.js",
+    "dev:server": "node --watch src/server.js",
     "start": "node src/server.js",
-    "test": "node --test tests/**/*.test.js"
+    "seed": "node src/seeds/seedCatalog.js",
+    "seed:admin": "node src/seeds/seedAdmin.js",
+    "test": "node --test --test-concurrency=1 tests/**/*.test.js"
   },
   "dependencies": {
+    "@google/genai": "^2.31.0",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

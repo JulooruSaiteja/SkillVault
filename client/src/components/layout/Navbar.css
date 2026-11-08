@@ -1,0 +1,39 @@
+/* Navbar Specific Styles */
+
+.nav-link-admin {
+  color: var(--color-danger, #f87171) !important;
+  font-weight: 600;
+}
+
+.nav-auth-user {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nav-profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+}
+
+.nav-admin-badge {
+  font-size: 0.7rem;
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--color-danger, #f87171);
+  padding: 0.1rem 0.35rem;
+  border-radius: var(--radius-sm, 4px);
+  font-weight: bold;
+}
+
+.nav-logout-btn {
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+}
+
+.nav-auth-guest {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

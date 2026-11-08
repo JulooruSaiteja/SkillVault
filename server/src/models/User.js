@@ -1,5 +1,38 @@
 import mongoose from 'mongoose';
 
+const userQuizScoreSchema = new mongoose.Schema(
+  {
+    video: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Video',
+      required: true
+    },
+    videoTitle: {
+      type: String,
+      trim: true
+    },
+    score: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 5
+    },
+    totalQuestions: {
+      type: Number,
+      default: 5
+    },
+    scoreDisplay: {
+      type: String,
+      required: true
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now
+    }
+  },
+  { _id: true }
+);
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -34,6 +67,10 @@ const userSchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: true
+    },
+    quizScores: {
+      type: [userQuizScoreSchema],
+      default: []
     }
   },
   {

@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
-import api, { ApiError } from '../services/api';
+import api from '../services/api';
 
 export const AuthContext = createContext(null);
 
@@ -72,6 +72,34 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const updateProfile = async (name) => {
+    setError(null);
+    try {
+      const res = await api.patch('/auth/profile', { name });
+      const updatedUser = res?.data?.user || null;
+      if (updatedUser) {
+        setUser(updatedUser);
+      }
+      return updatedUser;
+    } catch (err) {
+      const msg = err.message || 'Profile update failed';
+      setError(msg);
+      throw err;
+    }
+  };
+
+  const changePassword = async (currentPassword, newPassword) => {
+    setError(null);
+    try {
+      const res = await api.post('/auth/change-password', { currentPassword, newPassword });
+      return res;
+    } catch (err) {
+      const msg = err.message || 'Password change failed';
+      setError(msg);
+      throw err;
+    }
+  };
+
   const value = {
     user,
     loading,
@@ -81,6 +109,8 @@ export function AuthProvider({ children }) {
     login,
     signup,
     logout,
+    updateProfile,
+    changePassword,
     refreshUser: checkSession
   };
 

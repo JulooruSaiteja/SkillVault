@@ -1,0 +1,190 @@
+/* Skill Detail Page Styles */
+
+.skill-loading {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.skill-loading-text {
+  color: var(--color-text-muted);
+}
+
+.skill-not-found-container {
+  max-width: 600px;
+  margin: 3rem auto;
+  text-align: center;
+}
+
+.skill-not-found-title {
+  color: var(--color-danger, #f87171);
+}
+
+.skill-not-found-msg {
+  color: var(--color-text-muted);
+  margin: 1rem 0;
+}
+
+.skill-not-found-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.breadcrumb-nav {
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.breadcrumb-list {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+.breadcrumb-link {
+  color: var(--color-text-muted);
+}
+
+.breadcrumb-separator {
+  color: var(--color-text-dim);
+}
+
+.breadcrumb-current {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.skill-header {
+  margin-bottom: 2rem;
+}
+
+.skill-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.skill-title-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.skill-title-text {
+  margin: 0;
+}
+
+.skill-section {
+  margin-bottom: 2.5rem;
+}
+
+.skill-section-title {
+  font-size: 1.35rem;
+  margin-bottom: 1rem;
+}
+
+.skill-playlists-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+.skill-playlist-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.skill-playlist-card-title {
+  font-size: 1.15rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.skill-playlist-card-desc {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.skill-playlist-card-action {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.skill-empty-card {
+  padding: 1.5rem;
+  color: var(--color-text-muted);
+}
+
+.skill-empty-text {
+  margin: 0;
+}
+
+.skill-videos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.skill-video-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.skill-video-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 240px;
+}
+
+.skill-video-index {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--color-text-dim);
+  min-width: 1.5rem;
+}
+
+.skill-video-title {
+  font-size: 1.05rem;
+  margin: 0 0 0.25rem 0;
+}
+
+.skill-video-link {
+  color: var(--color-text);
+}
+
+.skill-video-details {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.skill-video-duration {
+  color: var(--color-text-muted);
+}
+
+.skill-video-transcript-badge {
+  color: var(--color-success);
+  font-weight: 500;
+}
+
+.skill-video-fallback-badge {
+  color: var(--color-text-dim);
+}
+
+.skill-video-btn {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.85rem;
+}

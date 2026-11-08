@@ -4,8 +4,8 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Load .env from server/ root
-dotenv.config({ path: resolve(__dirname, '../../.env') });
+// Load .env from server/ root with override: true so hot changes take effect
+dotenv.config({ path: resolve(__dirname, '../../.env'), override: true });
 
 /**
  * Required environment variables for SkillVault server.
@@ -60,6 +60,9 @@ const config = {
   get isProd() {
     return this.nodeEnv === 'production';
   },
+  get isTest() {
+    return this.nodeEnv === 'test';
+  },
   get port() {
     return parseInt(process.env.PORT, 10) || 5000;
   },
@@ -80,6 +83,20 @@ const config = {
   },
   get geminiApiKey() {
     return process.env.GEMINI_API_KEY;
+  },
+  get geminiNotesModel() {
+    return process.env.GEMINI_NOTES_MODEL || 'gemini-3.8-flash';
+  },
+  get geminiQuizModel() {
+    return process.env.GEMINI_QUIZ_MODEL || 'gemini-3.1-flash-lite';
+  },
+  get geminiNotesDailyBudget() {
+    const parsed = parseInt(process.env.GEMINI_NOTES_DAILY_BUDGET, 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : 20;
+  },
+  get geminiQuizDailyBudget() {
+    const parsed = parseInt(process.env.GEMINI_QUIZ_DAILY_BUDGET, 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : 500;
   }
 };
 

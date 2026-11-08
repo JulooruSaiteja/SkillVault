@@ -6,19 +6,35 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 
 import config from './config/env.js';
+import logger from './utils/logger.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import authRoutes from './routes/authRoutes.js';
+import categoryRoutes from './routes/categoryRoutes.js';
+import skillRoutes from './routes/skillRoutes.js';
+import searchRoutes from './routes/searchRoutes.js';
+import playlistRoutes from './routes/playlistRoutes.js';
+import videoRoutes from './routes/videoRoutes.js';
+import progressRoutes from './routes/progressRoutes.js';
+import bookmarkRoutes from './routes/bookmarkRoutes.js';
+import noteRoutes from './routes/noteRoutes.js';
+import quizRoutes from './routes/quizRoutes.js';
+import dashboardRoutes from './routes/dashboardRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 
 const app = express();
 
 // ------------------------------------
 // Security Headers (Helmet)
 // ------------------------------------
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+  crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' }
+}));
 
 // ------------------------------------
-// Request Logging (Morgan)
+// Request Logging (Morgan) with Safe Sanitization
 // ------------------------------------
+morgan.token('url', (req) => logger.sanitizeString(req.originalUrl || req.url));
 app.use(morgan(config.isDev ? 'dev' : 'combined'));
 
 // ------------------------------------
@@ -61,15 +77,17 @@ app.use(cookieParser(config.cookieSecret));
 // API Routes
 // ------------------------------------
 app.use('/api/auth', authRoutes);
-
-// Route modules will be mounted here in later phases, e.g.:
-//   app.use('/api/auth', authRoutes);
-//   app.use('/api/categories', categoryRoutes);
-//   app.use('/api/skills', skillRoutes);
-//   app.use('/api/playlists', playlistRoutes);
-//   app.use('/api/videos', videoRoutes);
-//   app.use('/api/search', searchRoutes);
-//   app.use('/api/ai', aiRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/skills', skillRoutes);
+app.use('/api/search', searchRoutes);
+app.use('/api/playlists', playlistRoutes);
+app.use('/api/videos', videoRoutes);
+app.use('/api/progress', progressRoutes);
+app.use('/api/bookmarks', bookmarkRoutes);
+app.use('/api/notes', noteRoutes);
+app.use('/api/quizzes', quizRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/admin', adminRoutes);
 
 // ------------------------------------
 // Unknown Route Handler (must be after all routes)
