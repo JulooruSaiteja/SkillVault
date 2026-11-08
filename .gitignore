@@ -13,9 +13,38 @@ server/node_modules/
 .env.test.local
 .env.production.local
 *.env
+**/.env
+**/.env.*
+**/.env.local
+**/.env.*.local
 server/.env
-!*.env.example
+client/.env
+
+# Always preserve safe example files
+!**/.env.example
 !.env.example
+!client/.env.example
+!server/.env.example
+
+# Private keys, certificates, and credentials
+*.pem
+*.key
+*.p12
+*.pfx
+*.cer
+*.crt
+id_rsa*
+id_ed25519*
+service-account*.json
+credentials.json
+client_secret*.json
+
+# Local database files, dumps, and backups
+*.dump
+*.bak
+*.sql.gz
+*.sqlite
+*.sqlite3
 
 # Production build and cache output
 dist/
@@ -42,5 +71,6 @@ Thumbs.db
 *.njsproj
 *.sln
 
-# Git backup
+# Git backup and temporary scratch
 .git-backup/
+scratch/
