@@ -39,7 +39,9 @@ export async function register(req, res, next) {
     // Check for existing account
     const existingUser = await User.findOne({ email: normalizedEmail });
     if (existingUser) {
-      throw ApiError.conflict('An account with this email address already exists');
+      throw ApiError.conflict('An account with this email address already exists', [
+        { field: 'email', message: 'An account with this email address already exists' }
+      ]);
     }
 
     // Hash password and strictly enforce learner role

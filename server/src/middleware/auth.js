@@ -29,19 +29,22 @@ export async function requireAuth(req, res, next) {
   try {
     const token = extractToken(req);
     if (!token) {
-      throw ApiError.unauthorized('Authentication required');
+      throw ApiError.unauthorized('Authentication required to access this resource.', 'AUTHENTICATION_REQUIRED');
     }
 
     let decoded;
     try {
       decoded = verifyToken(token);
-    } catch {
-      throw ApiError.unauthorized('Invalid or expired authentication token');
+    } catch (tokenErr) {
+      if (tokenErr.name === 'TokenExpiredError') {
+        throw new ApiError(401, 'Your session has expired. Please sign in again.', [], 'TOKEN_EXPIRED');
+      }
+      throw new ApiError(401, 'Invalid authentication token. Please sign in again.', [], 'INVALID_TOKEN');
     }
 
     const user = await User.findById(decoded.id);
     if (!user || !user.isActive) {
-      throw ApiError.unauthorized('User not found or account deactivated');
+      throw new ApiError(401, 'User account not found or deactivated.', [], 'ACCOUNT_INACTIVE');
     }
 
     req.user = user;
@@ -57,7 +60,7 @@ export async function requireAuth(req, res, next) {
  */
 export function requireAdmin(req, res, next) {
   if (!req.user || req.user.role !== 'admin') {
-    return next(ApiError.forbidden('Admin privileges required'));
+    return next(ApiError.forbidden('Admin privileges required', 'FORBIDDEN_ACCESS'));
   }
   next();
 }

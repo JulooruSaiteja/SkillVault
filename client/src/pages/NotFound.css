@@ -6,9 +6,9 @@
 
 .not-found-container {
   text-align: center;
-  padding: 5rem 2rem;
+  padding: var(--space-3xl) var(--space-xl);
   max-width: 580px;
-  margin: 3rem auto;
+  margin: var(--space-2xl) auto;
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);

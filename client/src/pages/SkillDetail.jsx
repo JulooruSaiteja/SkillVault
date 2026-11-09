@@ -44,9 +44,52 @@ export function SkillDetail() {
 
   if (loading) {
     return (
-      <div className="skill-loading" aria-busy="true" aria-live="polite">
-        <p className="skill-loading-text">Loading skill details...</p>
-      </div>
+      <section aria-busy="true" aria-live="polite">
+        <nav aria-label="Breadcrumb" className="breadcrumb-nav">
+          <ol className="breadcrumb-list">
+            <li><span className="skill-skeleton-pill skeleton-shimmer skeleton-pill-sm" /></li>
+            <li className="breadcrumb-separator" aria-hidden="true">/</li>
+            <li><span className="skill-skeleton-pill skeleton-shimmer skeleton-pill-md" /></li>
+            <li className="breadcrumb-separator" aria-hidden="true">/</li>
+            <li><span className="skill-skeleton-pill skeleton-shimmer skeleton-pill-lg" /></li>
+          </ol>
+        </nav>
+
+        <div className="page-header skill-header">
+          <div className="skill-title-row">
+            <span className="skill-skeleton-icon skeleton-shimmer" />
+            <div className="skill-skeleton-title skeleton-shimmer" />
+          </div>
+          <div className="skill-skeleton-desc skeleton-shimmer" />
+        </div>
+
+        <div className="skill-section">
+          <div className="skill-skeleton-heading skeleton-shimmer" />
+          <div className="skill-playlists-grid">
+            {[1, 2].map((i) => (
+              <div key={i} className="card skill-playlist-card skill-skeleton-card">
+                <div className="skill-skeleton-title skeleton-shimmer" style={{ width: '60%' }} />
+                <div className="skill-skeleton-desc skeleton-shimmer" style={{ width: '85%', marginTop: '0.5rem' }} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <div className="skill-skeleton-heading skeleton-shimmer" />
+          <div className="skill-videos-list">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="card skill-video-row skill-skeleton-row">
+                <span className="skill-skeleton-pill skeleton-shimmer skeleton-row-num" />
+                <div style={{ flex: 1 }}>
+                  <div className="skill-skeleton-title skeleton-shimmer" style={{ width: '70%', height: '18px' }} />
+                  <div className="skill-skeleton-desc skeleton-shimmer" style={{ width: '30%', height: '14px', marginTop: '0.5rem' }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     );
   }
 

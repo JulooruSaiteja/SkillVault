@@ -14,7 +14,10 @@ export function NotFound() {
       </p>
       <div className="not-found-actions">
         <Link to="/" className="btn btn-primary">
-          Return to Explore
+          Return to Home
+        </Link>
+        <Link to="/categories" className="btn btn-secondary">
+          Browse Subjects
         </Link>
       </div>
     </div>

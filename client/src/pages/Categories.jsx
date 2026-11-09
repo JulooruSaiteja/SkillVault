@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import './Categories.css';
 
 export function Categories() {
   const [categories, setCategories] = useState([]);
+  const [filterText, setFilterText] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -25,6 +26,45 @@ export function Categories() {
     fetchCategories();
   }, []);
 
+  const filteredCategories = useMemo(() => {
+    const q = filterText.trim().toLowerCase();
+    if (!q) return categories;
+
+    return categories
+      .map((cat) => {
+        const catMatches =
+          cat.name?.toLowerCase().includes(q) ||
+          cat.description?.toLowerCase().includes(q);
+
+        const matchingSkills = (cat.skills || []).filter(
+          (skill) =>
+            skill.name?.toLowerCase().includes(q) ||
+            skill.description?.toLowerCase().includes(q)
+        );
+
+        if (catMatches) {
+          return cat;
+        }
+
+        if (matchingSkills.length > 0) {
+          return {
+            ...cat,
+            skills: matchingSkills,
+          };
+        }
+
+        return null;
+      })
+      .filter(Boolean);
+  }, [categories, filterText]);
+
+  const totalFilteredSkills = useMemo(() => {
+    return filteredCategories.reduce(
+      (sum, c) => sum + (c.skills?.length || c.skillsCount || 0),
+      0
+    );
+  }, [filteredCategories]);
+
   return (
     <section>
       <div className="page-header">
@@ -34,9 +74,59 @@ export function Categories() {
         </p>
       </div>
 
+      {/* Quick Search and Filter Controls */}
+      <div className="card categories-filter-bar">
+        <div className="categories-filter-input-wrapper">
+          <span className="categories-filter-icon" aria-hidden="true">🔍</span>
+          <input
+            type="search"
+            value={filterText}
+            onChange={(e) => setFilterText(e.target.value)}
+            placeholder="Filter subjects or skills (e.g. React, Algorithms, Python, SQL)..."
+            aria-label="Filter subjects and skills"
+            className="categories-filter-input"
+          />
+          {filterText && (
+            <button
+              type="button"
+              onClick={() => setFilterText('')}
+              className="categories-filter-clear"
+              aria-label="Clear filter"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+        <div className="categories-filter-meta">
+          <span className="categories-count-badge">
+            {filteredCategories.length} {filteredCategories.length === 1 ? 'Domain' : 'Domains'}
+          </span>
+          <span className="categories-count-badge categories-count-skills">
+            {totalFilteredSkills} {totalFilteredSkills === 1 ? 'Skill' : 'Skills'}
+          </span>
+        </div>
+      </div>
+
       {loading && (
-        <div className="categories-loading" aria-busy="true" aria-live="polite">
-          <p className="categories-loading-text">Loading classroom catalog...</p>
+        <div className="categories-skeleton-list" aria-busy="true" aria-live="polite">
+          {[1, 2, 3].map((item) => (
+            <div key={item} className="card category-card category-skeleton-card">
+              <div className="category-skeleton-header">
+                <div className="skeleton-shimmer category-skeleton-icon" />
+                <div className="skeleton-shimmer category-skeleton-title" />
+              </div>
+              <div className="skeleton-shimmer category-skeleton-line" />
+              <div className="skeleton-shimmer category-skeleton-line-short" />
+              <div className="category-skills-section">
+                <div className="skeleton-shimmer category-skeleton-skills-title" />
+                <div className="category-skills-grid">
+                  {[1, 2, 3].map((idx) => (
+                    <div key={idx} className="category-skeleton-skill-card skeleton-shimmer" />
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       )}
 
@@ -58,9 +148,25 @@ export function Categories() {
         </div>
       )}
 
-      {!loading && !error && categories.length > 0 && (
+      {!loading && !error && categories.length > 0 && filteredCategories.length === 0 && (
+        <div className="card categories-empty-state">
+          <h3>No Subjects or Skills Match &ldquo;{filterText}&rdquo;</h3>
+          <p className="categories-empty-desc">
+            Try adjusting your search terms or clear the filter to browse the full catalog.
+          </p>
+          <button
+            type="button"
+            onClick={() => setFilterText('')}
+            className="btn btn-secondary"
+          >
+            Clear Filter
+          </button>
+        </div>
+      )}
+
+      {!loading && !error && filteredCategories.length > 0 && (
         <div className="categories-list">
-          {categories.map((category) => (
+          {filteredCategories.map((category) => (
             <article key={category._id || category.slug} className="card category-card">
               <div className="category-header">
                 {category.icon && (

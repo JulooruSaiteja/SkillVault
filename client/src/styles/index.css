@@ -197,6 +197,25 @@
   --container-max-width: 1200px;
   --transition-fast: 0.15s ease;
   --transition-normal: 0.25s ease;
+
+  /* ========================================================================
+     PHASE 6: Spacing System Design Tokens
+     Standardized scale for margins, paddings, gaps, and content separation
+     ======================================================================== */
+  --space-2xs: 4px;     /* Very small spacing: icon gaps, micro tags */
+  --space-xs: 8px;      /* Compact spacing: badges, pill padding, row items */
+  --space-sm: 12px;     /* Small spacing: table cells, form labels, small gaps */
+  --space-md: 16px;     /* Standard spacing: grid gaps, card padding, input padding */
+  --space-lg: 24px;     /* Section element spacing: card padding, header margins */
+  --space-xl: 32px;     /* Larger content spacing: section gaps, container margins */
+  --space-2xl: 48px;    /* Major section separation: hero to section transitions */
+  --space-3xl: 64px;    /* Page hero / boundary separation */
+
+  /* Content Density Boundaries */
+  --content-max-reading-width: 72ch;
+  --card-min-width-sm: 240px;
+  --card-min-width-md: 280px;
+  --card-min-width-lg: 320px;
 }
 
 /* ==========================================================================
@@ -364,12 +383,24 @@ a:hover {
   background-color: var(--bg-primary);
 }
 
+@keyframes page-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .main-content {
   flex: 1;
   width: 100%;
   max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 2.25rem 1.5rem 3.5rem;
+  padding: var(--space-xl) var(--space-lg) var(--space-2xl);
+  animation: page-enter 240ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Classroom Studio Header (#15191C Sidebar/Header Palette) */
@@ -431,16 +462,29 @@ a:hover {
   font-size: 0.9rem;
   padding: 0.45rem 0.85rem;
   border-radius: var(--radius-sm);
-  transition: all var(--transition-fast);
+  transition: transform 220ms ease, background-color 220ms ease, border-color 220ms ease, color 220ms ease;
   text-decoration: none;
   border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  transform-origin: center;
 }
 
 .nav-link:hover {
   color: var(--text-primary);
-  background-color: var(--bg-elevated);
+  background-color: var(--bg-hover);
   border-color: var(--border-color);
+  transform: scale(1.04);
   text-decoration: none;
+}
+
+.nav-link:active {
+  transform: scale(1.02);
+}
+
+.nav-link:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 2px;
 }
 
 .nav-link.active {
@@ -449,6 +493,13 @@ a:hover {
   border-color: var(--accent-gold-border);
   font-weight: 600;
   text-decoration: none;
+  transform: none;
+}
+
+.nav-link.active:hover {
+  transform: scale(1.04);
+  background-color: rgba(214, 179, 106, 0.2);
+  border-color: var(--accent-gold);
 }
 
 .nav-auth {
@@ -458,7 +509,7 @@ a:hover {
 }
 
 /* ==========================================================================
-   Classroom Button System
+   Classroom Button System (Phase 7: Smooth Hover & Press Feedback)
    ========================================================================== */
 
 .btn {
@@ -474,15 +525,25 @@ a:hover {
   border-radius: var(--radius-sm);
   border: 1px solid transparent;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, color 200ms ease;
   text-decoration: none;
   line-height: 1.4;
   white-space: nowrap;
   user-select: none;
 }
 
-.btn:active {
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn:active:not(:disabled) {
   transform: translateY(1px);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 2px;
 }
 
 .btn:disabled,
@@ -650,7 +711,7 @@ label {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 1.5rem;
+  padding: var(--space-lg);
   box-shadow: var(--shadow-md);
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
   color: var(--text-primary);
@@ -669,31 +730,59 @@ label {
 }
 
 .page-header {
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-lg);
   border-bottom: 1px solid var(--border-color);
-  padding-bottom: 1.25rem;
+  padding-bottom: var(--space-md);
 }
 
 .page-title {
   font-size: 1.85rem;
   font-weight: 800;
   color: var(--text-primary);
-  margin-bottom: 0.4rem;
+  margin-bottom: var(--space-xs);
   letter-spacing: -0.02em;
 }
 
 .page-description {
   color: var(--text-secondary);
   font-size: 1rem;
-  max-width: 720px;
-  line-height: 1.6;
+  max-width: var(--content-max-reading-width);
+  line-height: var(--leading-relaxed);
 }
 
 .grid-cols-3 {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(var(--card-min-width-lg), 1fr));
+  gap: var(--space-lg);
+  align-items: stretch;
 }
+
+/* Layout Alignment & Content Density Utilities (Phase 6) */
+.equal-height-grid {
+  display: grid;
+  align-items: stretch;
+}
+
+.equal-height-grid > * {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.equal-height-grid > * > :last-child {
+  margin-top: auto;
+}
+
+.content-balanced {
+  max-width: var(--content-max-reading-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-gap-sm { margin-bottom: var(--space-md); }
+.section-gap-md { margin-bottom: var(--space-lg); }
+.section-gap-lg { margin-bottom: var(--space-xl); }
+.section-gap-xl { margin-bottom: var(--space-2xl); }
 
 /* Progress Bar Container */
 .progress-track {
@@ -709,7 +798,7 @@ label {
   height: 100%;
   background-color: var(--accent-gold);
   border-radius: var(--radius-full);
-  transition: width 0.3s ease;
+  transition: width 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ==========================================================================
@@ -912,6 +1001,31 @@ code {
 }
 
 /* ==========================================================================
+   Shared Studio Skeleton Loading System
+   ========================================================================== */
+
+@keyframes studio-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--bg-elevated) 25%,
+    var(--bg-hover) 37%,
+    var(--bg-elevated) 63%
+  );
+  background-size: 400% 100%;
+  animation: studio-shimmer 1.8s infinite ease-in-out;
+  border-radius: var(--radius-sm);
+}
+
+/* ==========================================================================
    Responsive Adaptations
    ========================================================================== */
 
@@ -957,5 +1071,18 @@ code {
 
   .grid-cols-3 {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   Motion Accessibility (Phase 7: Respect prefers-reduced-motion)
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

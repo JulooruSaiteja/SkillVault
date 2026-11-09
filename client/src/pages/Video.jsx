@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import useAuth from '../hooks/useAuth';
+import ErrorAlert from '../components/common/ErrorAlert';
 import './Video.css';
 
 function formatDuration(seconds) {
@@ -106,7 +107,7 @@ export function Video() {
         globalQuota: res?.data?.globalQuota
       });
     } catch (err) {
-      setNotesError(err.message || 'Failed to load notes for this lesson.');
+      setNotesError(err);
     } finally {
       setNotesLoading(false);
     }
@@ -136,7 +137,7 @@ export function Video() {
       setNotes(res?.data?.notes || null);
       await fetchNotes();
     } catch (err) {
-      setNotesError(err.message || 'Failed to generate notes. Please try again.');
+      setNotesError(err);
     } finally {
       setNotesGenerating(false);
     }
@@ -156,7 +157,7 @@ export function Video() {
         globalQuota: res?.data?.globalQuota
       });
     } catch (err) {
-      setQuizError(err.message || 'Failed to load practice quiz for this lesson.');
+      setQuizError(err);
     } finally {
       setQuizLoading(false);
     }
@@ -190,7 +191,7 @@ export function Video() {
       setQuiz(res?.data?.quiz || null);
       await fetchQuiz();
     } catch (err) {
-      setQuizError(err.message || 'Failed to generate practice quiz. Please try again.');
+      setQuizError(err);
     } finally {
       setQuizGenerating(false);
     }
@@ -216,7 +217,7 @@ export function Video() {
       });
       setQuizResults(res?.data || null);
     } catch (err) {
-      setQuizError(err.message || 'Failed to submit quiz for grading. Please try again.');
+      setQuizError(err);
     } finally {
       setQuizSubmitting(false);
     }
@@ -876,20 +877,16 @@ export function Video() {
 
                 {/* Error Banner */}
                 {notesError && (
-                  <div
-                    role="alert"
-                    className="video-notes-error"
-                  >
-                    <span>{notesError}</span>
-                    <button
-                      type="button"
-                      onClick={() => setNotesError(null)}
-                      className="video-notes-error-close"
-                      aria-label="Dismiss error"
-                    >
-                      ✕
-                    </button>
-                  </div>
+                  <ErrorAlert
+                    variant={notesError?.code?.includes('QUOTA') ? 'warning' : 'error'}
+                    title={notesError?.code === 'USER_QUOTA_EXHAUSTED' ? 'Daily Notes Allowance Reached' : 'Notes Notice'}
+                    message={typeof notesError === 'string' ? notesError : notesError.message || 'Failed to process notes.'}
+                    resetsAt={notesError.resetsAt}
+                    isRetryable={Boolean(notesError.isRetryable && !notesError?.code?.includes('QUOTA'))}
+                    onRetry={handleGenerateNotes}
+                    retryLabel="Retry Generating Notes"
+                    onDismiss={() => setNotesError(null)}
+                  />
                 )}
 
                 {/* Loading state */}
@@ -1106,12 +1103,16 @@ export function Video() {
 
                 {/* Error Banner */}
                 {quizError && (
-                  <div
-                    role="alert"
-                    className="video-quiz-error"
-                  >
-                    {quizError}
-                  </div>
+                  <ErrorAlert
+                    variant={quizError?.code?.includes('QUOTA') ? 'warning' : 'error'}
+                    title={quizError?.code === 'USER_QUOTA_EXHAUSTED' ? 'Daily Quiz Allowance Reached' : 'Practice Quiz Notice'}
+                    message={typeof quizError === 'string' ? quizError : quizError.message || 'Failed to process practice quiz.'}
+                    resetsAt={quizError.resetsAt}
+                    isRetryable={Boolean(quizError.isRetryable && !quizError?.code?.includes('QUOTA'))}
+                    onRetry={quiz ? handleSubmitQuiz : handleGenerateQuiz}
+                    retryLabel={quiz ? 'Retry Submission' : 'Retry Quiz Generation'}
+                    onDismiss={() => setQuizError(null)}
+                  />
                 )}
 
                 {/* Loading State */}

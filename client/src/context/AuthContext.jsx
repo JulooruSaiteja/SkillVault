@@ -7,6 +7,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [sessionExpiredMessage, setSessionExpiredMessage] = useState(null);
 
   // Check current session on mount via HttpOnly cookie
   const checkSession = useCallback(async () => {
@@ -33,8 +34,24 @@ export function AuthProvider({ children }) {
     checkSession();
   }, [checkSession]);
 
+  // Handle sudden session expiration emitted by api client
+  useEffect(() => {
+    const handleSessionExpired = (event) => {
+      setUser(null);
+      setSessionExpiredMessage(
+        event.detail?.message || 'Your session has expired. Please sign in again to continue.'
+      );
+    };
+
+    window.addEventListener('skillvault:session-expired', handleSessionExpired);
+    return () => {
+      window.removeEventListener('skillvault:session-expired', handleSessionExpired);
+    };
+  }, []);
+
   const login = async (email, password) => {
     setError(null);
+    setSessionExpiredMessage(null);
     try {
       const res = await api.post('/auth/login', { email, password });
       const authenticatedUser = res?.data?.user || null;
@@ -49,6 +66,7 @@ export function AuthProvider({ children }) {
 
   const signup = async (name, email, password) => {
     setError(null);
+    setSessionExpiredMessage(null);
     try {
       const res = await api.post('/auth/register', { name, email, password });
       const newUser = res?.data?.user || null;
@@ -69,6 +87,7 @@ export function AuthProvider({ children }) {
     } finally {
       setUser(null);
       setError(null);
+      setSessionExpiredMessage(null);
     }
   };
 
@@ -104,6 +123,8 @@ export function AuthProvider({ children }) {
     user,
     loading,
     error,
+    sessionExpiredMessage,
+    clearSessionExpiredMessage: () => setSessionExpiredMessage(null),
     isAuthenticated: Boolean(user),
     isAdmin: user?.role === 'admin',
     login,

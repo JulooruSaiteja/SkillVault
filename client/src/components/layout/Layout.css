@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Application Layout Container
+   Application Layout Container & Page Transitions (Phase 7)
    ========================================================================== */
 
 .app-layout {
@@ -10,10 +10,22 @@
   background-image: var(--board-bg-gradient);
 }
 
+@keyframes page-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .main-content {
   flex: 1;
   width: 100%;
   max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 2.25rem 1.5rem 3.5rem;
+  padding: var(--space-xl) var(--space-lg) var(--space-2xl);
+  animation: page-enter 240ms cubic-bezier(0.16, 1, 0.3, 1);
 }

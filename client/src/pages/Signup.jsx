@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
+import ErrorAlert from '../components/common/ErrorAlert';
 import './Signup.css';
 
 export function Signup() {
@@ -21,26 +22,26 @@ export function Signup() {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     setError(null);
 
     if (name.trim().length < 2) {
-      setError('Full name must be at least 2 characters long.');
+      setError({ message: 'Full name must be at least 2 characters long.' });
       return;
     }
 
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      setError('Please provide a valid email address.');
+      setError({ message: 'Please provide a valid email address.' });
       return;
     }
 
     if (password.length < 6) {
-      setError('Password must be at least 6 characters long.');
+      setError({ message: 'Password must be at least 6 characters long.' });
       return;
     }
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match.');
+      setError({ message: 'Passwords do not match.' });
       return;
     }
 
@@ -49,7 +50,7 @@ export function Signup() {
       await signup(name.trim(), email.trim(), password);
       navigate('/dashboard', { replace: true });
     } catch (err) {
-      setError(err.message || 'Registration failed. Please check your information.');
+      setError(err);
     } finally {
       setSubmitting(false);
     }
@@ -64,9 +65,16 @@ export function Signup() {
 
       <div className="card">
         {error && (
-          <div role="alert" className="auth-error-alert">
-            {error}
-          </div>
+          <ErrorAlert
+            variant="error"
+            title="Registration Failed"
+            message={typeof error === 'string' ? error : error.message || 'Registration failed. Please check your information.'}
+            errors={error.errors}
+            isRetryable={Boolean(error.isRetryable || error.isNetworkError)}
+            onRetry={handleSubmit}
+            retryLabel="Retry Registration"
+            onDismiss={() => setError(null)}
+          />
         )}
 
         <form onSubmit={handleSubmit} className="auth-form">

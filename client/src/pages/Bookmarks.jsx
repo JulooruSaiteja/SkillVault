@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
+import ErrorAlert from '../components/common/ErrorAlert';
 import './Bookmarks.css';
 
 function formatDuration(seconds) {
@@ -19,6 +20,7 @@ export function Bookmarks() {
   const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [actionError, setActionError] = useState(null);
   const [removingId, setRemovingId] = useState(null);
 
   const fetchBookmarks = useCallback(async () => {
@@ -28,7 +30,7 @@ export function Bookmarks() {
       const res = await api.get('/bookmarks');
       setBookmarks(res?.data?.bookmarks || []);
     } catch (err) {
-      setError(err.message || 'Failed to load your bookmarked lessons. Please try again.');
+      setError(err);
     } finally {
       setLoading(false);
     }
@@ -41,11 +43,12 @@ export function Bookmarks() {
   const handleRemoveBookmark = async (videoId) => {
     if (!videoId || removingId) return;
     setRemovingId(videoId);
+    setActionError(null);
     try {
       await api.delete(`/bookmarks/${videoId}`);
       setBookmarks((prev) => prev.filter((b) => b.video._id !== videoId && b._id !== videoId));
     } catch (err) {
-      alert(`Could not remove bookmark: ${err.message}`);
+      setActionError(err.message || 'Could not remove bookmark. Please try again.');
     } finally {
       setRemovingId(null);
     }
@@ -72,6 +75,15 @@ export function Bookmarks() {
         </div>
       </div>
 
+      {actionError && (
+        <ErrorAlert
+          variant="warning"
+          title="Bookmark Action Notice"
+          message={actionError}
+          onDismiss={() => setActionError(null)}
+        />
+      )}
+
       {/* Loading State */}
       {loading && (
         <div className="bookmarks-loading" aria-busy="true" aria-live="polite">
@@ -81,12 +93,14 @@ export function Bookmarks() {
 
       {/* Error Alert */}
       {!loading && error && (
-        <div role="alert" className="bookmarks-error-banner">
-          <p className="bookmarks-error-text">{error}</p>
-          <button type="button" onClick={fetchBookmarks} className="btn btn-secondary">
-            Retry
-          </button>
-        </div>
+        <ErrorAlert
+          variant="error"
+          title="Could Not Load Bookmarks"
+          message={typeof error === 'string' ? error : error.message || 'Failed to load your bookmarked lessons.'}
+          isRetryable={true}
+          onRetry={fetchBookmarks}
+          retryLabel="Retry Loading"
+        />
       )}
 
       {/* Empty State */}

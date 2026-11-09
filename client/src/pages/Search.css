@@ -5,8 +5,8 @@
    ========================================================================== */
 
 .search-card {
-  margin-bottom: 2rem;
-  padding: 1.75rem;
+  margin-bottom: var(--space-xl);
+  padding: var(--space-lg);
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
@@ -181,7 +181,7 @@
 
 /* Search Sections */
 .search-section {
-  margin-bottom: 2.5rem;
+  margin-bottom: var(--space-2xl);
 }
 
 .search-section-title {
@@ -189,34 +189,43 @@
   font-weight: 700;
   color: var(--text-primary);
   font-family: var(--font-heading);
-  margin-bottom: 1.25rem;
+  margin-bottom: var(--space-md);
 }
 
 /* Skills Grid */
 .search-skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.25rem;
+  gap: var(--space-md);
+  align-items: stretch;
 }
 
 .search-skill-card {
-  padding: 1.25rem;
+  padding: var(--space-md);
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  transition: all var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 220ms ease, border-color 200ms ease;
 }
 
 .search-skill-card:hover {
   border-color: var(--accent-gold);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+}
+
+.search-skill-card:active {
+  transform: translateY(-1px);
 }
 
 .search-skill-name {
   font-size: 1.1rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-xs);
 }
 
 .search-skill-link {
@@ -231,8 +240,9 @@
 .search-skill-desc {
   font-size: 0.875rem;
   color: var(--text-secondary);
-  line-height: 1.55;
-  margin-bottom: 1rem;
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-sm);
+  flex: 1;
 }
 
 .search-skill-category {
@@ -244,36 +254,43 @@
   border-radius: var(--radius-sm);
   display: inline-block;
   border: 1px solid var(--accent-gold-border);
+  margin-top: auto;
 }
 
 /* Playlists Grid */
 .search-playlists-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.25rem;
+  gap: var(--space-md);
+  align-items: stretch;
 }
 
 .search-playlist-card {
-  padding: 1.25rem;
+  padding: var(--space-md);
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: all var(--transition-fast);
+  height: 100%;
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 220ms ease, border-color 200ms ease;
 }
 
 .search-playlist-card:hover {
   border-color: var(--accent-gold);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+}
+
+.search-playlist-card:active {
+  transform: translateY(-1px);
 }
 
 .search-playlist-title {
   font-size: 1.1rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-xs);
 }
 
 .search-playlist-link {

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import useAuth from '../hooks/useAuth';
+import ErrorAlert from '../components/common/ErrorAlert';
 import './Dashboard.css';
 
 function formatDuration(seconds) {
@@ -29,7 +30,7 @@ export function Dashboard() {
       const res = await api.get('/dashboard');
       setData(res?.data || null);
     } catch (err) {
-      setError(err.message || 'Failed to load dashboard data.');
+      setError(err);
     } finally {
       setLoading(false);
     }
@@ -61,17 +62,14 @@ export function Dashboard() {
           <h1 className="page-title">Learner Dashboard</h1>
           <p className="page-description">Overview of your technical tracks and progress.</p>
         </div>
-        <div
-          role="alert"
-          className="card dashboard-error-card"
-        >
-          <p className="dashboard-error-text">
-            {error}
-          </p>
-          <button type="button" onClick={fetchDashboard} className="btn btn-secondary">
-            Retry Loading
-          </button>
-        </div>
+        <ErrorAlert
+          variant="error"
+          title="Could Not Load Dashboard"
+          message={typeof error === 'string' ? error : error.message || 'Failed to load dashboard data.'}
+          isRetryable={true}
+          onRetry={fetchDashboard}
+          retryLabel="Retry Loading"
+        />
       </section>
     );
   }

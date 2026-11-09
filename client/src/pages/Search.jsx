@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import api from '../services/api';
+import ErrorAlert from '../components/common/ErrorAlert';
 import './Search.css';
 
 const POPULAR_SUGGESTIONS = [
@@ -35,6 +36,7 @@ export function Search() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [resultsData, setResultsData] = useState(null);
+  const abortControllerRef = useRef(null);
 
   const executeSearch = useCallback(async (queryText, typeFilter = 'all') => {
     const trimmed = queryText.trim();
@@ -43,15 +45,24 @@ export function Search() {
       return;
     }
 
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
     setLoading(true);
     setError(null);
 
     try {
       const typeParam = typeFilter && typeFilter !== 'all' ? `&type=${typeFilter}` : '';
-      const res = await api.get(`/search?q=${encodeURIComponent(trimmed)}${typeParam}`);
+      const res = await api.get(`/search?q=${encodeURIComponent(trimmed)}${typeParam}`, {
+        signal: controller.signal
+      });
       setResultsData(res?.data || null);
     } catch (err) {
-      setError(err.message || 'Failed to search catalog. Please try again.');
+      if (err.name === 'AbortError') return;
+      setError(err);
       setResultsData(null);
     } finally {
       setLoading(false);
@@ -234,16 +245,15 @@ export function Search() {
 
       {/* Error Alert */}
       {error && (
-        <div role="alert" className="search-error-banner">
-          <p className="search-error-msg">{error}</p>
-          <button
-            type="button"
-            onClick={() => executeSearch(searchInput, activeTab)}
-            className="btn btn-secondary"
-          >
-            Retry Search
-          </button>
-        </div>
+        <ErrorAlert
+          variant="error"
+          title="Search Notice"
+          message={typeof error === 'string' ? error : error.message || 'Failed to search catalog.'}
+          isRetryable={true}
+          onRetry={() => executeSearch(searchInput, activeTab)}
+          retryLabel="Retry Search"
+          onDismiss={() => setError(null)}
+        />
       )}
 
       {/* No Results Empty State */}

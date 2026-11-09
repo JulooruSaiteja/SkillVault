@@ -5,9 +5,9 @@
    ========================================================================== */
 
 .bookmarks-header {
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-lg);
   border-bottom: 1px solid var(--border-color);
-  padding-bottom: 1.25rem;
+  padding-bottom: var(--space-md);
 }
 
 .bookmarks-header-row {
@@ -99,25 +99,31 @@
 .bookmarks-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.25rem;
+  gap: var(--space-md);
+  align-items: stretch;
 }
 
 .bookmark-card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 1.5rem;
+  height: 100%;
+  padding: var(--space-lg);
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-  transition: all var(--transition-normal);
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 220ms ease, border-color 200ms ease;
 }
 
 .bookmark-card:hover {
   border-color: var(--accent-gold);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+}
+
+.bookmark-card:active {
+  transform: translateY(-1px);
 }
 
 .bookmark-card.is-removing {

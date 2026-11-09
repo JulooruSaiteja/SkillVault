@@ -17,6 +17,7 @@ import {
 } from '../services/ai/notesService.js';
 import ApiResponse from '../utils/ApiResponse.js';
 import ApiError from '../utils/ApiError.js';
+import { AiError } from '../services/ai/geminiError.js';
 
 /**
  * Resolves an active video by either MongoDB ObjectId or URL slug.
@@ -125,9 +126,7 @@ export async function generateVideoNotes(req, res, next) {
     const userAllowance = await checkUserAllowance(req.user._id, AI_FEATURES.NOTES);
     if (!userAllowance.allowed) {
       const featConfig = getAiConfig(AI_FEATURES.NOTES);
-      throw ApiError.tooManyRequests(
-        `You have reached your daily limit of ${featConfig.userDailyLimit} notes generation. Your allowance resets at 00:00 UTC.`
-      );
+      throw AiError.userQuotaExhausted(AI_FEATURES.NOTES, featConfig.userDailyLimit);
     }
 
     // 3. Generate notes via Gemini 3.8 Flash (enforces global budget reservation and retry accounting)
@@ -136,6 +135,10 @@ export async function generateVideoNotes(req, res, next) {
       description: video.description,
       userId: req.user._id
     });
+
+    if (!generatedData || !generatedData.summary || !Array.isArray(generatedData.keyConcepts)) {
+      throw AiError.invalidOutput('Generated notes content structure is invalid. Please try again.', AI_FEATURES.NOTES);
+    }
 
     // 4. Persist to MongoDB cache
     const featConfig = getAiConfig(AI_FEATURES.NOTES);

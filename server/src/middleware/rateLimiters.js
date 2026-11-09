@@ -13,7 +13,11 @@ export const authLimiter = rateLimit({
   legacyHeaders: false,
   message: {
     success: false,
-    message: 'Too many authentication attempts from this IP, please try again after 15 minutes'
+    code: 'RATE_LIMIT_EXCEEDED',
+    message: 'Too many authentication attempts from this IP, please try again after 15 minutes',
+    statusCode: 429,
+    isRetryable: true,
+    retryAfterMs: 15 * 60 * 1000
   }
 });
 

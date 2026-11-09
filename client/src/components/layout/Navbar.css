@@ -10,18 +10,30 @@
 .nav-link-admin {
   color: var(--error-red) !important;
   font-weight: 600;
+  transition: transform 220ms ease, background-color 220ms ease, border-color 220ms ease, color 220ms ease !important;
+  transform-origin: center;
 }
 
 .nav-link-admin:hover {
   background-color: var(--error-red-bg) !important;
   color: #FFA3A3 !important;
   border-color: var(--error-red-border) !important;
+  transform: scale(1.04);
+}
+
+.nav-link-admin:active {
+  transform: scale(1.02);
 }
 
 .nav-link-admin.active {
   background-color: var(--error-red-bg) !important;
   color: #FFA3A3 !important;
   border-color: var(--error-red-border) !important;
+  transform: none;
+}
+
+.nav-link-admin.active:hover {
+  transform: scale(1.04);
 }
 
 .nav-auth-user {
@@ -41,13 +53,24 @@
   background-color: var(--bg-elevated);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
-  transition: all var(--transition-fast);
+  transition: transform 220ms ease, background-color 220ms ease, border-color 220ms ease, color 220ms ease;
+  transform-origin: center;
 }
 
 .nav-profile-btn:hover {
   background-color: var(--bg-hover);
   color: var(--accent-gold);
   border-color: var(--accent-gold);
+  transform: scale(1.04);
+}
+
+.nav-profile-btn:active {
+  transform: scale(1.02);
+}
+
+.nav-profile-btn:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 2px;
 }
 
 .nav-admin-badge {
@@ -71,13 +94,24 @@
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: transform 220ms ease, background-color 220ms ease, border-color 220ms ease, color 220ms ease;
+  transform-origin: center;
 }
 
 .nav-logout-btn:hover {
   color: var(--error-red);
   background-color: var(--error-red-bg);
   border-color: var(--error-red-border);
+  transform: scale(1.04);
+}
+
+.nav-logout-btn:active {
+  transform: scale(1.02);
+}
+
+.nav-logout-btn:focus-visible {
+  outline: 2px solid var(--error-red);
+  outline-offset: 2px;
 }
 
 .nav-auth-guest {

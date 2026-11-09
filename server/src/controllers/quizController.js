@@ -18,6 +18,7 @@ import {
 } from '../services/ai/quizService.js';
 import ApiResponse from '../utils/ApiResponse.js';
 import ApiError from '../utils/ApiError.js';
+import { AiError } from '../services/ai/geminiError.js';
 
 /**
  * Resolves an active video by either MongoDB ObjectId or URL slug.
@@ -126,9 +127,7 @@ export async function generateVideoQuiz(req, res, next) {
     const userAllowance = await checkUserAllowance(req.user._id, AI_FEATURES.QUIZ);
     if (!userAllowance.allowed) {
       const featConfig = getAiConfig(AI_FEATURES.QUIZ);
-      throw ApiError.tooManyRequests(
-        `You have reached your daily limit of ${featConfig.userDailyLimit} practice quizzes. Your allowance resets at 00:00 UTC.`
-      );
+      throw AiError.userQuotaExhausted(AI_FEATURES.QUIZ, featConfig.userDailyLimit);
     }
 
     // 3. Generate quiz via Gemini 3.1 Flash Lite (enforces global budget reservation and retry accounting)
@@ -137,6 +136,10 @@ export async function generateVideoQuiz(req, res, next) {
       description: video.description,
       userId: req.user._id
     });
+
+    if (!generatedData || !Array.isArray(generatedData.questions) || generatedData.questions.length === 0) {
+      throw AiError.invalidOutput('Generated quiz structure is invalid. Please try again.', AI_FEATURES.QUIZ);
+    }
 
     // 4. Persist to MongoDB cache
     const featConfig = getAiConfig(AI_FEATURES.QUIZ);

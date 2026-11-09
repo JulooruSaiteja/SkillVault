@@ -27,9 +27,9 @@ export function Admin() {
   const [formData, setFormData] = useState({});
   const [submitting, setSubmitting] = useState(false);
 
-  // Clear feedback after 6 seconds
+  // Clear success feedback after 6 seconds, retain errors until actioned or dismissed
   useEffect(() => {
-    if (feedback.message) {
+    if (feedback.message && feedback.type === 'success') {
       const timer = setTimeout(() => setFeedback({ type: '', message: '' }), 6000);
       return () => clearTimeout(timer);
     }

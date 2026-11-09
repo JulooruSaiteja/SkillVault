@@ -45,8 +45,8 @@
 
 /* Playlist Header Card */
 .playlist-header-card {
-  padding: 2.25rem;
-  margin-bottom: 2.5rem;
+  padding: var(--space-xl);
+  margin-bottom: var(--space-xl);
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
@@ -56,8 +56,8 @@
 .playlist-meta-row {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
-  margin-bottom: 1rem;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
   flex-wrap: wrap;
 }
 
@@ -106,16 +106,16 @@
   font-size: 2.25rem;
   font-weight: 800;
   letter-spacing: -0.025em;
-  margin: 0 0 0.85rem 0;
+  margin: 0 0 var(--space-xs) 0;
   color: var(--text-primary);
 }
 
 .playlist-description {
   color: var(--text-secondary);
   font-size: 1.05rem;
-  max-width: 860px;
-  margin-bottom: 2rem;
-  line-height: 1.65;
+  max-width: var(--content-max-reading-width);
+  margin-bottom: var(--space-lg);
+  line-height: var(--leading-relaxed);
 }
 
 /* Progress Box */
@@ -188,7 +188,7 @@
   height: 100%;
   background-color: var(--accent-gold);
   border-radius: var(--radius-full);
-  transition: width 0.3s ease;
+  transition: width 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .playlist-progress-fill.is-complete {

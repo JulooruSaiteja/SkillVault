@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
+import ErrorAlert from '../components/common/ErrorAlert';
 import './Login.css';
 
 export function Login() {
-  const { login, user } = useAuth();
+  const { login, user, sessionExpiredMessage, clearSessionExpiredMessage } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -20,11 +21,11 @@ export function Login() {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     setError(null);
 
     if (!email.trim() || !password) {
-      setError('Please provide both email address and password.');
+      setError({ message: 'Please provide both email address and password.' });
       return;
     }
 
@@ -34,7 +35,7 @@ export function Login() {
       const destination = location.state?.from?.pathname || '/dashboard';
       navigate(destination, { replace: true });
     } catch (err) {
-      setError(err.message || 'Invalid email or password.');
+      setError(err);
     } finally {
       setSubmitting(false);
     }
@@ -48,10 +49,26 @@ export function Login() {
       </div>
 
       <div className="card">
+        {sessionExpiredMessage && !error && (
+          <ErrorAlert
+            variant="warning"
+            title="Session Expired"
+            message={sessionExpiredMessage}
+            onDismiss={clearSessionExpiredMessage}
+          />
+        )}
+
         {error && (
-          <div role="alert" className="auth-error-alert">
-            {error}
-          </div>
+          <ErrorAlert
+            variant="error"
+            title="Sign In Failed"
+            message={typeof error === 'string' ? error : error.message || 'Invalid email or password.'}
+            errors={error.errors}
+            isRetryable={Boolean(error.isRetryable || error.isNetworkError)}
+            onRetry={handleSubmit}
+            retryLabel="Retry Sign In"
+            onDismiss={() => setError(null)}
+          />
         )}
 
         <form onSubmit={handleSubmit} className="auth-form">
