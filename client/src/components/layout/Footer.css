@@ -1,10 +1,25 @@
-/* Footer Component Styles */
+/* ==========================================================================
+   Footer Component Styles – Studio Base (#15191C)
+   ========================================================================== */
 
 .site-footer {
-  background-color: var(--color-surface);
-  border-top: 1px solid var(--color-border);
-  padding: 1.5rem;
+  background-color: var(--bg-sidebar);
+  border-top: 1px solid var(--border-color);
+  padding: 2.25rem 1.5rem;
   text-align: center;
-  color: var(--color-text-dim);
+  color: var(--text-muted);
   font-size: 0.875rem;
+  margin-top: auto;
+}
+
+.footer-content {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+}
+
+.footer-content p {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin: 0;
+  font-family: var(--font-body);
 }

@@ -44,7 +44,7 @@ export function Login() {
     <section className="auth-container">
       <div className="page-header auth-header">
         <h1 className="page-title">Sign In</h1>
-        <p className="page-description">Access your computing progress and notes.</p>
+        <p className="page-description">Access your classroom progress, notes, and quiz history.</p>
       </div>
 
       <div className="card">

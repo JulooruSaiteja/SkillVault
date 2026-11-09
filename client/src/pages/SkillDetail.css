@@ -1,27 +1,36 @@
-/* Skill Detail Page Styles */
+/* ==========================================================================
+   Skill Detail Page Styles – Digital Classroom
+   Unified Studio Palette (#111315 / #1B1F22 / #D6B36A)
+   ========================================================================== */
 
 .skill-loading {
   text-align: center;
-  padding: 4rem 1rem;
+  padding: 5rem 1rem;
 }
 
 .skill-loading-text {
-  color: var(--color-text-muted);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-family: var(--font-body);
 }
 
 .skill-not-found-container {
-  max-width: 600px;
-  margin: 3rem auto;
+  max-width: 540px;
+  margin: 4rem auto;
   text-align: center;
 }
 
 .skill-not-found-title {
-  color: var(--color-danger, #f87171);
+  color: var(--error-red);
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .skill-not-found-msg {
-  color: var(--color-text-muted);
-  margin: 1rem 0;
+  color: var(--text-secondary);
+  margin: 1rem 0 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .skill-not-found-actions {
@@ -30,9 +39,10 @@
   justify-content: center;
 }
 
+/* Breadcrumb Navigation */
 .breadcrumb-nav {
-  margin-bottom: 1.5rem;
-  font-size: 0.9rem;
+  margin-bottom: 1.75rem;
+  font-size: 0.875rem;
 }
 
 .breadcrumb-list {
@@ -46,47 +56,67 @@
 }
 
 .breadcrumb-link {
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+.breadcrumb-link:hover {
+  color: var(--accent-gold);
+  text-decoration: underline;
 }
 
 .breadcrumb-separator {
-  color: var(--color-text-dim);
+  color: var(--text-muted);
+  user-select: none;
 }
 
 .breadcrumb-current {
-  color: var(--color-primary);
-  font-weight: 600;
+  color: var(--text-primary);
+  font-weight: 700;
 }
 
+/* Skill Header */
 .skill-header {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .skill-title-row {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.5rem;
+  gap: 0.85rem;
+  margin-bottom: 0.65rem;
 }
 
 .skill-title-icon {
-  font-size: 2rem;
+  font-size: 2.25rem;
   line-height: 1;
 }
 
 .skill-title-text {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
   margin: 0;
+  color: var(--text-primary);
 }
 
+/* Sections */
 .skill-section {
   margin-bottom: 2.5rem;
 }
 
 .skill-section-title {
   font-size: 1.35rem;
-  margin-bottom: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1.15rem;
+  letter-spacing: -0.015em;
 }
 
+/* Curated Playlists Grid */
 .skill-playlists-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -97,34 +127,54 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 1.5rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  transition: all var(--transition-normal);
+}
+
+.skill-playlist-card:hover {
+  border-color: var(--accent-gold);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
 }
 
 .skill-playlist-card-title {
   font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
   margin: 0 0 0.5rem 0;
+  letter-spacing: -0.015em;
 }
 
 .skill-playlist-card-desc {
-  color: var(--color-text-muted);
-  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.55;
   margin-bottom: 1rem;
 }
 
 .skill-playlist-card-action {
   margin-top: 1rem;
-  display: flex;
-  justify-content: flex-start;
 }
 
 .skill-empty-card {
-  padding: 1.5rem;
-  color: var(--color-text-muted);
+  padding: 2.5rem;
+  text-align: center;
+  background-color: var(--bg-card);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-lg);
 }
 
 .skill-empty-text {
+  color: var(--text-muted);
+  font-size: 0.9rem;
   margin: 0;
 }
 
+/* Videos List */
 .skill-videos-list {
   display: flex;
   flex-direction: column;
@@ -135,33 +185,56 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.25rem;
+  padding: 1.15rem 1.35rem;
   gap: 1rem;
-  flex-wrap: wrap;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  transition: all var(--transition-fast);
+}
+
+.skill-video-row:hover {
+  border-color: var(--accent-gold);
+  background-color: var(--bg-hover);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
 }
 
 .skill-video-meta {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.15rem;
   flex: 1;
   min-width: 240px;
 }
 
 .skill-video-index {
   font-family: var(--font-mono);
-  font-size: 0.9rem;
-  color: var(--color-text-dim);
-  min-width: 1.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  background-color: var(--accent-gold-bg);
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--radius-xs);
+  min-width: 2.2rem;
+  text-align: center;
+  border: 1px solid var(--accent-gold-border);
 }
 
 .skill-video-title {
-  font-size: 1.05rem;
+  font-size: 1rem;
+  font-weight: 600;
   margin: 0 0 0.25rem 0;
 }
 
 .skill-video-link {
-  color: var(--color-text);
+  color: var(--text-primary);
+  transition: color var(--transition-fast);
+}
+
+.skill-video-link:hover {
+  color: var(--accent-gold);
+  text-decoration: underline;
 }
 
 .skill-video-details {
@@ -169,22 +242,31 @@
   align-items: center;
   gap: 0.75rem;
   font-size: 0.8rem;
+  flex-wrap: wrap;
 }
 
 .skill-video-duration {
-  color: var(--color-text-muted);
-}
-
-.skill-video-transcript-badge {
-  color: var(--color-success);
-  font-weight: 500;
-}
-
-.skill-video-fallback-badge {
-  color: var(--color-text-dim);
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .skill-video-btn {
-  padding: 0.4rem 0.85rem;
+  padding: 0.45rem 1rem;
   font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .skill-video-row {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem;
+  }
+
+  .skill-video-btn {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
 }

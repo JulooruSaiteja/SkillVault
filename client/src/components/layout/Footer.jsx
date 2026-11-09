@@ -6,7 +6,7 @@ export function Footer() {
     <footer className="site-footer">
       <div className="footer-content">
         <p>
-          &copy; {new Date().getFullYear()} SkillVault. Curated Computer Science, Software Development &amp; Data Skills.
+          &copy; {new Date().getFullYear()} SkillVault. Digital Learning Classroom &amp; Curated Knowledge Platform.
         </p>
       </div>
     </footer>

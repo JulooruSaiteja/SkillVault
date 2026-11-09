@@ -28,15 +28,15 @@ export function Categories() {
   return (
     <section>
       <div className="page-header">
-        <h1 className="page-title">Computing Categories</h1>
+        <h1 className="page-title">Classroom Subjects &amp; Domains</h1>
         <p className="page-description">
-          Browse curated computing domains, specialized software skills, and structured learning tracks.
+          Browse curated subject domains, specialized technical tracks, and structured knowledge paths.
         </p>
       </div>
 
       {loading && (
         <div className="categories-loading" aria-busy="true" aria-live="polite">
-          <p className="categories-loading-text">Loading computing catalog...</p>
+          <p className="categories-loading-text">Loading classroom catalog...</p>
         </div>
       )}
 

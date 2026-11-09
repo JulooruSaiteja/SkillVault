@@ -53,6 +53,8 @@ export function verifyToken(token) {
 
 /**
  * Generate standardized cookie options for JWT transmission.
+ * When maxAge / expires are omitted, browsers treat this as a true session cookie
+ * that is held in memory and discarded when the browser session terminates (closed).
  *
  * @returns {import('express').CookieOptions}
  */
@@ -61,8 +63,7 @@ export function getCookieOptions() {
   return {
     httpOnly: true,
     secure: isProd,
-    sameSite: isProd ? 'strict' : 'lax',
-    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    sameSite: isProd ? 'strict' : 'lax'
   };
 }
 

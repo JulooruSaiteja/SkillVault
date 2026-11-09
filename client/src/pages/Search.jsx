@@ -130,7 +130,7 @@ export function Search() {
       <div className="page-header">
         <h1 className="page-title">Search Catalog</h1>
         <p className="page-description">
-          Find computing skills, curated structured playlists, and targeted technical lessons across SkillVault.
+          Find skills, curated structured playlists, and targeted technical lessons across SkillVault.
         </p>
       </div>
 
@@ -228,7 +228,7 @@ export function Search() {
       {/* Loading State */}
       {loading && (
         <div className="search-loading" aria-busy="true" aria-live="polite">
-          <p className="search-loading-text">Searching computing catalog...</p>
+          <p className="search-loading-text">Searching classroom catalog...</p>
         </div>
       )}
 
@@ -425,15 +425,6 @@ export function Search() {
                         <span className="search-video-duration">
                           ⏱️ {formatDuration(video.durationSeconds)}
                         </span>
-                        {video.hasTranscript ? (
-                          <span className="search-video-transcript">
-                            ✓ Transcript Available
-                          </span>
-                        ) : (
-                          <span className="search-video-fallback">
-                            Metadata Fallback
-                          </span>
-                        )}
                       </div>
                     </div>
 

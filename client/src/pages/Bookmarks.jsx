@@ -98,7 +98,7 @@ export function Bookmarks() {
             You haven't bookmarked any videos yet. When watching a lesson, click the <strong>Bookmark</strong> button to save it to your personal technical library.
           </p>
           <Link to="/categories" className="btn btn-primary">
-            Explore Computing Tracks
+            Explore Learning Tracks
           </Link>
         </div>
       )}
@@ -132,12 +132,6 @@ export function Bookmarks() {
                     <span className="bookmark-duration">
                       ⏱️ {formatDuration(video.durationSeconds)}
                     </span>
-
-                    {video.hasTranscript && (
-                      <span className="bookmark-transcript-badge">
-                        ✓ Transcript
-                      </span>
-                    )}
 
                     {isCompleted && (
                       <span className="bookmark-completed-badge">

@@ -1,9 +1,13 @@
-/* Application Layout Container */
+/* ==========================================================================
+   Application Layout Container
+   ========================================================================== */
 
 .app-layout {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: var(--board-bg);
+  background-image: var(--board-bg-gradient);
 }
 
 .main-content {
@@ -11,5 +15,5 @@
   width: 100%;
   max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  padding: 2.25rem 1.5rem 3.5rem;
 }

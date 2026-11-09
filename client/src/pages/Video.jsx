@@ -25,7 +25,7 @@ export function Video() {
   const [playlistContext, setPlaylistContext] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'notes' | 'quiz' | 'transcript'
+  const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'notes' | 'quiz'
   const [playerError, setPlayerError] = useState(false);
   const [playerReady, setPlayerReady] = useState(false);
 
@@ -68,8 +68,18 @@ export function Video() {
 
     try {
       const res = await api.get(`/videos/${encodeURIComponent(videoId)}`);
-      setVideo(res?.data?.video || null);
+      const v = res?.data?.video || null;
+      setVideo(v);
       setPlaylistContext(res?.data?.playlistContext || null);
+      if (v) {
+        videoRef.current = v;
+        const savedPos = v.userProgress?.lastPositionSeconds || 0;
+        setIsCompleted(Boolean(v.userProgress?.isCompleted));
+        setIsBookmarked(Boolean(v.isBookmarked));
+        setCurrentPosition(savedPos);
+        lastSavedPositionRef.current = savedPos;
+        setShowResumePrompt(savedPos > 5);
+      }
     } catch (err) {
       setError(err.message || 'Failed to load video lesson. Please try again.');
     } finally {
@@ -457,9 +467,84 @@ export function Video() {
 
   if (loading) {
     return (
-      <div className="video-loading-container" aria-busy="true" aria-live="polite">
-        <p className="video-loading-text">Loading video lesson &amp; player...</p>
-      </div>
+      <section className="video-skeleton-root" aria-busy="true" aria-live="polite">
+        {/* Breadcrumb Skeleton matching actual breadcrumb */}
+        <nav aria-label="Breadcrumb" className="video-breadcrumb video-skeleton-breadcrumb">
+          <ol className="video-breadcrumb-list">
+            <li><span className="video-skeleton-pill skeleton-pill-sm" /></li>
+            <li className="video-breadcrumb-sep" aria-hidden="true">/</li>
+            <li><span className="video-skeleton-pill skeleton-pill-md" /></li>
+            <li className="video-breadcrumb-sep" aria-hidden="true">/</li>
+            <li><span className="video-skeleton-pill skeleton-pill-lg" /></li>
+          </ol>
+        </nav>
+
+        {/* Main Grid: Player & Details (left) + Playlist Curriculum Queue (right) */}
+        <div className="video-layout-grid with-playlist">
+          {/* Left Column Skeleton */}
+          <div className="video-main-column">
+            {/* 16:9 Video Player Skeleton */}
+            <div className="video-player-wrapper video-skeleton-player" />
+
+            {/* Playback Progress Status Bar Skeleton */}
+            <div className="video-playback-bar video-skeleton-bar">
+              <span className="video-skeleton-line skeleton-line-playback" />
+            </div>
+
+            {/* Video Header & Controls Skeleton Card */}
+            <div className="card video-card-main video-skeleton-card">
+              <div className="video-header-top">
+                <div className="video-badges-row">
+                  <span className="video-skeleton-pill skeleton-badge-skill" />
+                  <span className="video-skeleton-pill skeleton-badge-duration" />
+                </div>
+                <div className="video-header-actions">
+                  <span className="video-skeleton-pill skeleton-btn-action" />
+                </div>
+              </div>
+
+              <div className="video-skeleton-line skeleton-line-title" />
+              <div className="video-skeleton-line skeleton-line-title-sub" />
+
+              {/* Feature Shell Tabs Skeleton */}
+              <div className="video-tabs-list video-skeleton-tabs">
+                <span className="video-skeleton-tab active" />
+                <span className="video-skeleton-tab" />
+                <span className="video-skeleton-tab" />
+              </div>
+
+              {/* Tab content placeholder lines */}
+              <div className="video-tab-content video-skeleton-tab-content">
+                <div className="video-skeleton-line skeleton-line-h3" />
+                <div className="video-skeleton-line" />
+                <div className="video-skeleton-line skeleton-line-75" />
+                <div className="video-skeleton-line skeleton-line-90" />
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column Skeleton (Curriculum Queue) */}
+          <aside aria-label="Playlist curriculum loading" className="card video-playlist-aside video-skeleton-aside">
+            <div className="video-playlist-header">
+              <div className="video-skeleton-line skeleton-line-kicker" />
+              <div className="video-skeleton-line skeleton-line-aside-title" />
+              <div className="video-skeleton-line skeleton-line-aside-meta" />
+            </div>
+
+            <div className="video-playlist-items-list">
+              {[1, 2, 3, 4, 5].map((idx) => (
+                <div key={idx} className="video-playlist-item-link video-skeleton-item">
+                  <span className="video-skeleton-pill skeleton-item-num" />
+                  <div className="video-playlist-item-body">
+                    <div className="video-skeleton-line skeleton-item-title" />
+                    <div className="video-skeleton-line skeleton-item-sub" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </aside>
+        </div>
+      </section>
     );
   }
 
@@ -545,41 +630,7 @@ export function Video() {
       {/* Main Grid: Player & Details (left) + Playlist Curriculum Queue (right) */}
       <div className={`video-layout-grid ${playlistContext ? 'with-playlist' : ''}`}>
         {/* Left Column: Player, Actions, Details, Shells */}
-        <div>
-          {/* Resume Prompt Banner */}
-          {isAuthenticated && showResumePrompt && (video.userProgress?.lastPositionSeconds || 0) > 5 && (
-            <div className="video-resume-banner">
-              <div className="video-resume-info">
-                <span className="video-resume-icon">📍</span>
-                <span className="video-resume-text">
-                  You were watching at{' '}
-                  <strong className="video-resume-highlight">
-                    {formatDuration(video.userProgress.lastPositionSeconds)}
-                  </strong>
-                  {video.durationSeconds > 0 &&
-                    ` (${Math.min(100, Math.round((video.userProgress.lastPositionSeconds / video.durationSeconds) * 100))}%)`}
-                  .
-                </span>
-              </div>
-              <div className="video-resume-actions">
-                <button
-                  type="button"
-                  className="btn btn-primary video-sm-btn"
-                  onClick={handleResume}
-                >
-                  Resume from {formatDuration(video.userProgress.lastPositionSeconds)}
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-secondary video-sm-btn"
-                  onClick={handleStartFromBeginning}
-                >
-                  Start from beginning
-                </button>
-              </div>
-            </div>
-          )}
-
+        <div className="video-main-column">
           {/* Responsive 16:9 YouTube Embedded Player */}
           <div className="video-player-wrapper">
             {!playerError ? (
@@ -620,6 +671,40 @@ export function Video() {
               </div>
             )}
           </div>
+
+          {/* Resume Prompt Banner - Positioned below player so player Y-offset NEVER shifts */}
+          {isAuthenticated && showResumePrompt && (video.userProgress?.lastPositionSeconds || 0) > 5 && (
+            <div className="video-resume-banner">
+              <div className="video-resume-info">
+                <span className="video-resume-icon">📍</span>
+                <span className="video-resume-text">
+                  You were watching at{' '}
+                  <strong className="video-resume-highlight">
+                    {formatDuration(video.userProgress.lastPositionSeconds)}
+                  </strong>
+                  {video.durationSeconds > 0 &&
+                    ` (${Math.min(100, Math.round((video.userProgress.lastPositionSeconds / video.durationSeconds) * 100))}%)`}
+                  .
+                </span>
+              </div>
+              <div className="video-resume-actions">
+                <button
+                  type="button"
+                  className="btn btn-primary video-sm-btn"
+                  onClick={handleResume}
+                >
+                  Resume from {formatDuration(video.userProgress.lastPositionSeconds)}
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary video-sm-btn"
+                  onClick={handleStartFromBeginning}
+                >
+                  Start from beginning
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Playback Progress Status Bar */}
           <div className="video-playback-bar">
@@ -666,18 +751,6 @@ export function Video() {
                 <span className="video-duration-badge">
                   ⏱️ {formatDuration(video.durationSeconds)}
                 </span>
-                {video.hasTranscript ? (
-                  <span className="video-transcript-badge">
-                    ✓ Transcript Available
-                  </span>
-                ) : (
-                  <span
-                    className="video-fallback-badge"
-                    title="AI features will use video metadata fallback"
-                  >
-                    Metadata Fallback
-                  </span>
-                )}
                 {isCompleted && (
                   <span className="video-done-badge">
                     ✓ Completed (90%+)
@@ -757,7 +830,7 @@ export function Video() {
                 onClick={() => setActiveTab('notes')}
                 className={`btn ${activeTab === 'notes' ? 'btn-primary' : 'btn-secondary'} video-tab-btn`}
               >
-                AI Notes
+                Generated Notes
               </button>
               <button
                 type="button"
@@ -768,18 +841,7 @@ export function Video() {
                 onClick={() => setActiveTab('quiz')}
                 className={`btn ${activeTab === 'quiz' ? 'btn-primary' : 'btn-secondary'} video-tab-btn`}
               >
-                AI Practice Quiz
-              </button>
-              <button
-                type="button"
-                role="tab"
-                id="tab-transcript"
-                aria-controls="panel-transcript"
-                aria-selected={activeTab === 'transcript'}
-                onClick={() => setActiveTab('transcript')}
-                className={`btn ${activeTab === 'transcript' ? 'btn-primary' : 'btn-secondary'} video-tab-btn`}
-              >
-                Transcript
+                Practice Quiz
               </button>
             </div>
 
@@ -795,14 +857,14 @@ export function Video() {
               </div>
             )}
 
-            {/* Tab: AI Notes (Phase 12) */}
+            {/* Tab: Generated Notes (Phase 12) */}
             {activeTab === 'notes' && (
               <div role="tabpanel" id="panel-notes" aria-labelledby="tab-notes" tabIndex={0} className="video-tab-content">
                 <div className="video-notes-header">
                   <div>
-                    <h3 className="video-notes-title">Grounded Learning Notes</h3>
+                    <h3 className="video-notes-title">Generated Notes</h3>
                     <span className="video-notes-subtitle">
-                      Model: Gemini 3.8 Flash • Source: Video Title & Description
+                      Curriculum-Grounded Study Reference • Source: Lesson Topics
                     </span>
                   </div>
                   {notes && (
@@ -837,82 +899,96 @@ export function Video() {
                   </div>
                 )}
 
-                {/* Notes Display */}
+                {/* Notes Display: Student Notebook Aesthetic */}
                 {notes && (
-                  <div className="video-notes-list">
-                    {/* Summary */}
-                    <div className="video-notes-card">
-                      <h4 className="video-notes-section-title title-primary">
-                        Summary
-                      </h4>
-                      <p className="video-notes-body">
-                        {notes.summary}
-                      </p>
+                  <div className="student-notebook">
+                    <div className="notebook-spiral-header">
+                      <div className="notebook-stamp-badge">
+                        <span className="notebook-journal-icon">📓</span>
+                        <div>
+                          <strong className="notebook-journal-title">STUDENT STUDY JOURNAL</strong>
+                          <span className="notebook-topic-stamp">{video.title}</span>
+                        </div>
+                      </div>
+                      <span className="notebook-verified-badge">Curriculum Grounded</span>
                     </div>
 
-                    {/* Key Concepts */}
-                    {notes.keyConcepts?.length > 0 && (
-                      <div>
-                        <h4 className="video-notes-section-title title-accent">
-                          Key Concepts
+                    <div className="notebook-ruled-page">
+                      {/* Summary */}
+                      <div className="notebook-section">
+                        <h4 className="notebook-handwritten-title title-summary">
+                          📝 Lesson Summary
                         </h4>
-                        <div className="video-quiz-options-list">
-                          {notes.keyConcepts.map((item, idx) => (
-                            <div
-                              key={idx}
-                              className="video-concept-item"
-                            >
-                              <strong className="video-concept-title">
-                                {item.concept}
-                              </strong>
-                              <p className="video-concept-desc">
-                                {item.explanation}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
+                        <p className="notebook-ink-body">
+                          {notes.summary}
+                        </p>
                       </div>
-                    )}
 
-                    {/* Definitions */}
-                    {notes.definitions?.length > 0 && (
-                      <div>
-                        <h4 className="video-notes-section-title title-success">
-                          Technical Definitions
-                        </h4>
-                        <div className="video-quiz-options-list">
-                          {notes.definitions.map((def, idx) => (
-                            <div
-                              key={idx}
-                              className="video-concept-item"
-                            >
-                              <code className="video-def-code">
-                                {def.term}
-                              </code>
-                              <p className="video-concept-desc">
-                                {def.definition}
-                              </p>
-                            </div>
-                          ))}
+                      {/* Key Concepts */}
+                      {notes.keyConcepts?.length > 0 && (
+                        <div className="notebook-section">
+                          <h4 className="notebook-handwritten-title title-concepts">
+                            💡 Key Concepts & Core Principles
+                          </h4>
+                          <div className="notebook-concepts-grid">
+                            {notes.keyConcepts.map((item, idx) => (
+                              <div
+                                key={idx}
+                                className="notebook-concept-card"
+                              >
+                                <strong className="notebook-concept-title">
+                                  {item.concept}
+                                </strong>
+                                <p className="notebook-concept-desc">
+                                  {item.explanation}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
 
-                    {/* Key Takeaways */}
-                    {notes.takeaways?.length > 0 && (
-                      <div className="video-notes-card">
-                        <h4 className="video-notes-section-title title-warning">
-                          Key Takeaways
-                        </h4>
-                        <ul className="video-takeaways-list">
-                          {notes.takeaways.map((point, idx) => (
-                            <li key={idx} className="video-takeaway-item">
-                              {point}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
+                      {/* Definitions */}
+                      {notes.definitions?.length > 0 && (
+                        <div className="notebook-section">
+                          <h4 className="notebook-handwritten-title title-defs">
+                            📐 Technical Definitions
+                          </h4>
+                          <div className="notebook-definitions-grid">
+                            {notes.definitions.map((def, idx) => (
+                              <div
+                                key={idx}
+                                className="notebook-concept-card"
+                              >
+                                <code className="notebook-def-code">
+                                  {def.term}
+                                </code>
+                                <p className="notebook-concept-desc">
+                                  {def.definition}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Key Takeaways */}
+                      {notes.takeaways?.length > 0 && (
+                        <div className="notebook-section">
+                          <h4 className="notebook-handwritten-title title-takeaways">
+                            📌 Key Study Takeaways
+                          </h4>
+                          <ul className="notebook-takeaways-list">
+                            {notes.takeaways.map((point, idx) => (
+                              <li key={idx} className="notebook-takeaway-item">
+                                <span className="notebook-bullet-dash">—</span>
+                                <span>{point}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
 
@@ -924,7 +1000,7 @@ export function Video() {
                         No notes generated for this lesson yet
                       </h4>
                       <p className="video-notes-empty-desc">
-                        Generate AI learning notes covering the summary, key concepts, technical definitions, and takeaways strictly grounded in this video's curriculum topics.
+                        Generate structured study notes covering the summary, key concepts, technical definitions, and takeaways grounded in this video's curriculum topics.
                       </p>
 
                       {!isAuthenticated ? (
@@ -944,7 +1020,7 @@ export function Video() {
                           {/* Quota feedback messaging */}
                           {notesQuota?.globalQuota?.isExhausted ? (
                             <div className="video-quota-warn-banner">
-                              The daily global AI quota for Notes generation has been reached. Please try again after 00:00 UTC.
+                              The daily global quota for notes generation has been reached. Please try again after 00:00 UTC.
                             </div>
                           ) : notesQuota?.userQuota && !notesQuota.userQuota.allowed ? (
                             <div className="video-quota-info-banner">
@@ -971,7 +1047,7 @@ export function Video() {
                                 : ''
                             }`}
                           >
-                            {notesGenerating ? 'Generating Notes with Gemini 3.8 Flash...' : 'Generate Notes'}
+                            {notesGenerating ? 'Generating Notes...' : 'Generate Notes'}
                           </button>
                         </div>
                       )}
@@ -981,14 +1057,14 @@ export function Video() {
               </div>
             )}
 
-            {/* Tab: AI Practice Quiz (Phase 13) */}
+            {/* Tab: Practice Quiz (Phase 13) */}
             {activeTab === 'quiz' && (
               <div role="tabpanel" id="panel-quiz" aria-labelledby="tab-quiz" tabIndex={0} className="video-tab-content">
                 <div className="video-notes-header">
                   <div>
-                    <h3 className="video-notes-title">Conceptual Practice Quiz</h3>
+                    <h3 className="video-notes-title">Practice Quiz</h3>
                     <span className="video-notes-subtitle">
-                      Model: Gemini 3.1 Flash Lite • Source: Video Title & Description
+                      Conceptual Assessment • 5 Questions
                     </span>
                   </div>
                   {quiz && (
@@ -1017,13 +1093,13 @@ export function Video() {
                       </span>
                     ) : (
                       <span className="video-dim-text">
-                        Sign in to generate and take conceptual practice quizzes (2 quizzes/day).
+                        Sign in to generate and take practice quizzes (2 quizzes/day).
                       </span>
                     )}
                   </div>
                   {quizQuota?.globalQuota?.isExhausted && (
                     <span className="video-quiz-quota-danger">
-                      ⚠️ Global daily budget exhausted. Resets at 00:00 UTC.
+                      ⚠️ Daily global budget limit reached. Resets at 00:00 UTC.
                     </span>
                   )}
                 </div>
@@ -1048,26 +1124,31 @@ export function Video() {
                 {/* Evaluated Quiz Results (Post-Submission) */}
                 {!quizLoading && quizResults && (
                   <div className="video-quiz-results-list">
-                    {/* Score summary banner */}
-                    <div className="video-quiz-score-banner">
-                      <div>
-                        <span className="video-quiz-eval-label">
-                          Quiz Evaluation Complete
-                        </span>
-                        <div className="video-quiz-score-val">
-                          Score: {quizResults.scoreDisplay}
-                          <span className="video-quiz-score-pct">
-                            ({quizResults.percentage}%)
-                          </span>
+                    {/* Score summary banner: Evaluation Slip */}
+                    <div className="teacher-grade-card">
+                      <div className="teacher-grade-header">
+                        <div className="teacher-score-stamp">
+                          <span className="teacher-score-num">{quizResults.score}</span>
+                          <span className="teacher-score-divider">/</span>
+                          <span className="teacher-score-den">{quizResults.totalQuestions || 5}</span>
                         </div>
-                        <p className="video-quiz-score-msg">
+                        <div className="teacher-grade-meta">
+                          <span className="teacher-eval-tag">EVALUATION</span>
+                          <div className="teacher-grade-pct">{quizResults.percentage}% Mastery</div>
+                        </div>
+                      </div>
+
+                      <div className="teacher-remark-box">
+                        <span className="teacher-remark-kicker">Feedback:</span>
+                        <p className="teacher-remark-note">
                           {quizResults.score === 5
-                            ? '🎉 Perfect score! You fully mastered all concepts tested in this lesson.'
+                            ? '🌟 Perfect score! Exemplary understanding of all core curriculum concepts.'
                             : quizResults.score >= 3
-                            ? '👍 Solid effort! Review the detailed concept explanations below.'
-                            : '📚 Keep reviewing! Read each explanation carefully to master these topics.'}
+                            ? '👍 Commendable work! Check the explanations below for any missed items.'
+                            : '📚 Study review suggested. Carefully review the explanations below to solidify the fundamentals.'}
                         </p>
                       </div>
+
                       <button
                         type="button"
                         onClick={handleRetakeQuiz}
@@ -1089,13 +1170,17 @@ export function Video() {
                               Question {qIdx + 1} of {quizResults.totalQuestions || 5}
                             </span>
                             <span
-                              className={`video-quiz-eval-badge ${res.isCorrect ? 'is-correct' : 'is-incorrect'}`}
+                              className={`teacher-status-mark ${res.isCorrect ? 'mark-correct' : 'mark-incorrect'}`}
                             >
-                              {res.isCorrect ? '✓ Correct' : '✗ Incorrect'}
+                              {res.isCorrect ? (
+                                <><span className="teacher-mark-symbol">✓</span> Correct</>
+                              ) : (
+                                <><span className="teacher-mark-symbol">✗</span> Incorrect</>
+                              )}
                             </span>
                           </div>
 
-                          <h4 className="video-quiz-question-title">
+                          <h4 className="video-quiz-question-title chalk-question-title">
                             {res.questionText}
                           </h4>
 
@@ -1119,12 +1204,12 @@ export function Video() {
                                   <span>{opt}</span>
                                   <div>
                                     {isCorrectAnswer && (
-                                      <span className="video-quiz-opt-correct-label">
+                                      <span className="teacher-correct-tag">
                                         ✓ Correct Option
                                       </span>
                                     )}
                                     {isUserPick && !isCorrectAnswer && (
-                                      <span className="video-quiz-opt-wrong-label">
+                                      <span className="teacher-incorrect-tag">
                                         ✗ Your Choice
                                       </span>
                                     )}
@@ -1135,11 +1220,13 @@ export function Video() {
                           </div>
 
                           {/* Explanation Card */}
-                          <div className="video-quiz-explanation-box">
-                            <strong className="video-quiz-explanation-title">
-                              💡 Explanation
+                          <div className="teacher-feedback-box">
+                            <strong className="teacher-feedback-title">
+                              Explanation:
                             </strong>
-                            {res.explanation}
+                            <p className="teacher-feedback-text">
+                              {res.explanation}
+                            </p>
                           </div>
                         </div>
                       ))}
@@ -1151,7 +1238,7 @@ export function Video() {
                 {!quizLoading && !quizResults && quiz && (
                   <div className="video-quiz-results-list">
                     <div className="video-quiz-instruction-card">
-                      Answer all 5 questions below, then click <strong>Submit Quiz for Grading</strong> to receive your score and explanations.
+                      Answer all 5 questions below, then click <strong>Submit Quiz for Grading</strong> to receive instant evaluation and feedback.
                     </div>
 
                     <div className="video-quiz-results-list">
@@ -1165,7 +1252,7 @@ export function Video() {
                             <span className="video-quiz-eval-label">
                               Question {qIdx + 1} of 5
                             </span>
-                            <h4 className="video-quiz-take-title">
+                            <h4 className="video-quiz-take-title chalk-question-title">
                               {q.questionText}
                             </h4>
 
@@ -1220,7 +1307,7 @@ export function Video() {
                     <div className="video-quiz-empty-icon">🎯</div>
                     <h4 className="video-quiz-empty-title">No Practice Quiz Generated Yet</h4>
                     <p className="video-quiz-empty-desc">
-                      Test your conceptual understanding of this lesson with a personalized 5-question multiple-choice practice quiz generated by Gemini 3.1 Flash Lite.
+                      Test your conceptual understanding of this lesson with a 5-question multiple-choice practice quiz.
                     </p>
 
                     <div>
@@ -1236,7 +1323,7 @@ export function Video() {
                         <div className="video-quiz-prompt-actions">
                           {quizQuota?.globalQuota?.isExhausted && (
                             <p className="video-quiz-error-msg">
-                              Daily global request limit for Gemini 3.1 Flash Lite reached. Try again after 00:00 UTC.
+                              Daily global request limit for quiz generation reached. Try again after 00:00 UTC.
                             </p>
                           )}
                           {quizQuota?.userQuota && !quizQuota.userQuota.allowed && (
@@ -1260,28 +1347,12 @@ export function Video() {
                                 : ''
                             }`}
                           >
-                            {quizGenerating ? 'Generating Quiz with Gemini 3.1 Flash Lite...' : 'Generate Practice Quiz'}
+                            {quizGenerating ? 'Generating Practice Quiz...' : 'Generate Practice Quiz'}
                           </button>
                         </div>
                       )}
                     </div>
                   </div>
-                )}
-              </div>
-            )}
-
-            {/* Tab: Transcript */}
-            {activeTab === 'transcript' && (
-              <div role="tabpanel" id="panel-transcript" aria-labelledby="tab-transcript" tabIndex={0} className="video-tab-content">
-                <h3 className="video-overview-heading">Transcript Text</h3>
-                {video.hasTranscript && video.transcript ? (
-                  <div className="video-transcript-box">
-                    {video.transcript}
-                  </div>
-                ) : (
-                  <p className="video-dim-text">
-                    No explicit transcript provided. AI features will utilize title and metadata fallback.
-                  </p>
                 )}
               </div>
             )}

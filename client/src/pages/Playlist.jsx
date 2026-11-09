@@ -49,9 +49,42 @@ export function Playlist() {
 
   if (loading) {
     return (
-      <div className="playlist-loading" aria-busy="true" aria-live="polite">
-        <p className="playlist-loading-text">Loading playlist curriculum...</p>
-      </div>
+      <section className="playlist-skeleton-root" aria-busy="true" aria-live="polite">
+        <nav aria-label="Breadcrumb" className="breadcrumb-nav">
+          <ol className="breadcrumb-list">
+            <li><span className="playlist-skeleton-pill skeleton-pill-sm" /></li>
+            <li className="breadcrumb-separator" aria-hidden="true">/</li>
+            <li><span className="playlist-skeleton-pill skeleton-pill-md" /></li>
+            <li className="breadcrumb-separator" aria-hidden="true">/</li>
+            <li><span className="playlist-skeleton-pill skeleton-pill-lg" /></li>
+          </ol>
+        </nav>
+
+        <div className="card playlist-header-card playlist-skeleton-card">
+          <div className="playlist-meta-row">
+            <span className="playlist-skeleton-pill skeleton-pill-sm" />
+            <span className="playlist-skeleton-pill skeleton-pill-md" />
+          </div>
+          <div className="playlist-skeleton-line skeleton-title" />
+          <div className="playlist-skeleton-line skeleton-desc" />
+          <div className="playlist-skeleton-line skeleton-desc-short" />
+        </div>
+
+        <div className="playlist-videos-section">
+          <div className="playlist-skeleton-line skeleton-section-header" />
+          <div className="playlist-videos-list">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="card playlist-video-row playlist-skeleton-row">
+                <span className="playlist-skeleton-pill skeleton-row-num" />
+                <div className="playlist-video-main">
+                  <div className="playlist-skeleton-line skeleton-row-title" />
+                  <div className="playlist-skeleton-line skeleton-row-sub" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     );
   }
 
@@ -122,7 +155,7 @@ export function Playlist() {
       <div className="card playlist-header-card">
         <div className="playlist-meta-row">
           <span className="playlist-curated-badge">
-            Curated Playlist
+            Curated Course Track
           </span>
           {skill && (
             <Link to={`/skills/${skill.slug}`} className="playlist-skill-tag">
@@ -151,7 +184,7 @@ export function Playlist() {
         <div className="playlist-progress-box">
           <div className="playlist-progress-header">
             <div className="playlist-progress-title-row">
-              <span className="playlist-progress-title">Playlist Progress</span>
+              <span className="playlist-progress-title">Track Completion</span>
               {stats?.isCompleted && (
                 <span className="playlist-completed-badge">
                   ✓ Completed
@@ -241,16 +274,6 @@ export function Playlist() {
                       <span className="playlist-video-duration">
                         ⏱️ {formatDuration(video.durationSeconds)}
                       </span>
-
-                      {video.hasTranscript ? (
-                        <span className="playlist-video-transcript">
-                          ✓ Transcript Available
-                        </span>
-                      ) : (
-                        <span className="playlist-video-fallback">
-                          Metadata Fallback
-                        </span>
-                      )}
 
                       {video.isCompleted && (
                         <span className="playlist-video-completed-tag">

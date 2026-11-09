@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import ApiError from '../src/utils/ApiError.js';
 import ApiResponse from '../src/utils/ApiResponse.js';
 import slugify from '../src/utils/slugify.js';
+import { getCookieOptions } from '../src/utils/token.js';
 
 describe('Backend Utility Classes', () => {
   describe('ApiError', () => {
@@ -58,6 +59,16 @@ describe('Backend Utility Classes', () => {
       assert.equal(slugify(''), '');
       assert.equal(slugify(null), '');
       assert.equal(slugify(undefined), '');
+    });
+  });
+
+  describe('getCookieOptions (Browser-Session Auth)', () => {
+    it('should configure an HTTP-only browser-session cookie without maxAge or expires', () => {
+      const options = getCookieOptions();
+      assert.equal(options.httpOnly, true);
+      assert.equal(options.sameSite, 'lax');
+      assert.equal(options.maxAge, undefined, 'maxAge must be omitted for browser session lifecycle');
+      assert.equal(options.expires, undefined, 'expires must be omitted for browser session lifecycle');
     });
   });
 });

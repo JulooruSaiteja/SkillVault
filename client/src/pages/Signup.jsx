@@ -59,7 +59,7 @@ export function Signup() {
     <section className="auth-container">
       <div className="page-header auth-header">
         <h1 className="page-title">Create Account</h1>
-        <p className="page-description">Begin your curated computing learning track.</p>
+        <p className="page-description">Begin your curated classroom learning track.</p>
       </div>
 
       <div className="card">

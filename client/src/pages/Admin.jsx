@@ -22,7 +22,7 @@ export function Admin() {
   const [feedback, setFeedback] = useState({ type: '', message: '' });
 
   // Modal / Form States
-  const [modalType, setModalType] = useState(null); // 'category' | 'skill' | 'playlist' | 'video' | 'transcript'
+  const [modalType, setModalType] = useState(null); // 'category' | 'skill' | 'playlist' | 'video'
   const [editingItem, setEditingItem] = useState(null);
   const [formData, setFormData] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -142,7 +142,6 @@ export function Admin() {
         durationSeconds: 600,
         skill: skills[0]?._id || '',
         playlist: '',
-        transcript: '',
         order: 0,
         isActive: true
       });
@@ -186,13 +185,8 @@ export function Admin() {
         durationSeconds: item.durationSeconds || 0,
         skill: item.skill?._id || item.skill || '',
         playlist: item.playlist?._id || item.playlist || '',
-        transcript: item.transcript || '',
         order: item.order || 0,
         isActive: item.isActive !== false
-      });
-    } else if (type === 'transcript') {
-      setFormData({
-        transcript: item.transcript || ''
       });
     }
   };
@@ -242,11 +236,6 @@ export function Admin() {
           await api.post('/admin/videos', formData);
           setFeedback({ type: 'success', message: 'Video lesson created successfully.' });
         }
-      } else if (modalType === 'transcript') {
-        await api.patch(`/admin/videos/${editingItem._id}/transcript`, {
-          transcript: formData.transcript
-        });
-        setFeedback({ type: 'success', message: 'Video transcript updated successfully.' });
       }
 
       closeModal();
@@ -365,7 +354,7 @@ export function Admin() {
           { id: 'categories', label: '📁 Categories' },
           { id: 'skills', label: '💡 Skills' },
           { id: 'playlists', label: '📚 Playlists' },
-          { id: 'videos', label: '🎬 Videos & Transcripts' },
+          { id: 'videos', label: '🎬 Video Lessons' },
           { id: 'users', label: '👥 User Accounts' }
         ].map((tab) => (
           <button
@@ -395,8 +384,7 @@ export function Admin() {
                   { label: 'Curated Skills', count: stats?.skills ?? 0, icon: '💡' },
                   { label: 'Curated Playlists', count: stats?.playlists ?? 0, icon: '📚' },
                   { label: 'Total Video Lessons', count: stats?.videos ?? 0, icon: '🎬' },
-                  { label: 'Registered Users', count: stats?.users ?? 0, icon: '👥' },
-                  { label: 'Transcripts Available', count: stats?.videosWithTranscript ?? 0, icon: '📝' }
+                  { label: 'Registered Users', count: stats?.users ?? 0, icon: '👥' }
                 ].map((item, idx) => (
                   <div key={idx} className="card admin-overview-card">
                     <div className="admin-overview-icon">{item.icon}</div>
@@ -411,10 +399,9 @@ export function Admin() {
               <div className="card">
                 <h3 className="admin-rules-title">Catalog Governance & Deactivation Rules</h3>
                 <ul className="admin-rules-list">
-                  <li><strong>Computing Scope Only</strong>: Curate lessons strictly relating to CSE, software engineering, databases, IT, and data science.</li>
-                  <li><strong>Soft Deactivation</strong>: Toggling an item to Inactive immediately hides it from catalog discovery while preserving all learner bookmarks, video playback offsets, AI notes, and quiz records.</li>
+                  <li><strong>Academic Scope Only</strong>: Curate lessons strictly relating to technical computer science, software engineering, databases, and IT.</li>
+                  <li><strong>Soft Deactivation</strong>: Toggling an item to Inactive immediately hides it from catalog discovery while preserving all learner bookmarks, video playback offsets, generated notes, and quiz records.</li>
                   <li><strong>Hard Delete Safety</strong>: Hard deletion of videos with user history references is strictly blocked by the server to prevent data corruption.</li>
-                  <li><strong>Transcripts</strong>: Edit or input video transcripts directly. SkillVault uses available transcripts first for AI notes, with clear UI attribution.</li>
                 </ul>
               </div>
             </div>
@@ -438,7 +425,7 @@ export function Admin() {
                   {categories.length === 0 ? (
                     <tr>
                       <td colSpan="6" className="admin-td-empty">
-                        No categories found. Create the first computing category above.
+                        No categories found. Create the first subject category above.
                       </td>
                     </tr>
                   ) : (
@@ -636,7 +623,7 @@ export function Admin() {
             </div>
           )}
 
-          {/* TAB 5: VIDEOS & TRANSCRIPTS */}
+          {/* TAB 5: VIDEO LESSONS */}
           {activeTab === 'videos' && (
             <div className="card admin-table-container">
               <table className="admin-table">
@@ -645,7 +632,6 @@ export function Admin() {
                     <th className="admin-th">Video Title</th>
                     <th className="admin-th">Skill & Playlist</th>
                     <th className="admin-th">YouTube ID / Duration</th>
-                    <th className="admin-th">Transcript</th>
                     <th className="admin-th">Status</th>
                     <th className="admin-th text-right">Actions</th>
                   </tr>
@@ -653,7 +639,7 @@ export function Admin() {
                 <tbody>
                   {videos.length === 0 ? (
                     <tr>
-                      <td colSpan="6" className="admin-td-empty">
+                      <td colSpan="5" className="admin-td-empty">
                         No videos found. Add your first video lesson above.
                       </td>
                     </tr>
@@ -680,13 +666,6 @@ export function Admin() {
                         </td>
                         <td className="admin-td">
                           <span
-                            className={`admin-transcript-badge ${vid.hasTranscript ? 'has-transcript' : 'no-transcript'}`}
-                          >
-                            {vid.hasTranscript ? '✓ Transcript' : 'No Transcript'}
-                          </span>
-                        </td>
-                        <td className="admin-td">
-                          <span
                             className={`admin-status-badge ${vid.isActive ? 'active' : 'inactive'}`}
                           >
                             {vid.isActive ? 'Active' : 'Inactive'}
@@ -694,14 +673,6 @@ export function Admin() {
                         </td>
                         <td className="admin-td text-right">
                           <div className="admin-actions-group gap-sm">
-                            <button
-                              type="button"
-                              onClick={() => openEditModal('transcript', vid)}
-                              className="btn btn-secondary admin-action-btn compact"
-                              title="Edit Transcript"
-                            >
-                              📝 Transcript
-                            </button>
                             <button
                               type="button"
                               onClick={() => handleToggle('videos', vid._id, vid.title)}
@@ -799,7 +770,7 @@ export function Admin() {
         </>
       )}
 
-      {/* CRUD / TRANSCRIPT MODAL */}
+      {/* CRUD MODAL */}
       {modalType && (
         <div
           role="dialog"
@@ -807,14 +778,10 @@ export function Admin() {
           aria-labelledby="admin-modal-title"
           className="admin-modal-overlay"
         >
-          <div
-            className={`card admin-modal-dialog ${modalType === 'transcript' ? 'transcript' : ''}`}
-          >
+          <div className="card admin-modal-dialog">
             <div className="admin-modal-header">
               <h2 id="admin-modal-title" className="admin-modal-title">
-                {modalType === 'transcript'
-                  ? `Edit Transcript: ${editingItem?.title}`
-                  : `${editingItem ? 'Edit' : 'Create'} ${modalType.charAt(0).toUpperCase() + modalType.slice(1)}`}
+                {`${editingItem ? 'Edit' : 'Create'} ${modalType ? modalType.charAt(0).toUpperCase() + modalType.slice(1) : ''}`}
               </h2>
               <button
                 type="button"
@@ -851,7 +818,7 @@ export function Admin() {
                       rows="3"
                       value={formData.description || ''}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      placeholder="Brief summary of this technical computing category"
+                      placeholder="Brief summary of this subject category"
                       className="admin-form-input"
                     />
                   </div>
@@ -1116,39 +1083,11 @@ export function Admin() {
                       rows="3"
                       value={formData.description || ''}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      placeholder="Topics covered in this video lesson (used as primary grounding for AI notes and quiz)"
-                      className="admin-form-input"
-                    />
-                  </div>
-                  <div>
-                    <label className="admin-form-label">
-                      Transcript Input (Optional admin-provided text)
-                    </label>
-                    <textarea
-                      rows="4"
-                      value={formData.transcript || ''}
-                      onChange={(e) => setFormData({ ...formData, transcript: e.target.value })}
-                      placeholder="Admin-supplied lesson transcript text"
+                      placeholder="Topics covered in this video lesson (used as primary grounding for generated notes and quiz)"
                       className="admin-form-input"
                     />
                   </div>
                 </>
-              )}
-
-              {/* Dedicated Transcript Editor Modal */}
-              {modalType === 'transcript' && (
-                <div>
-                  <p className="admin-transcript-help">
-                    Enter or paste the lesson transcript below. Providing transcript text automatically sets <code>hasTranscript: true</code> and activates transcript-grounded notes generation.
-                  </p>
-                  <textarea
-                    rows="12"
-                    value={formData.transcript || ''}
-                    onChange={(e) => setFormData({ ...formData, transcript: e.target.value })}
-                    placeholder="Paste comprehensive transcript text here..."
-                    className="admin-transcript-textarea"
-                  />
-                </div>
               )}
 
               {/* Submit Buttons */}

@@ -1,8 +1,16 @@
-/* Search Page Styles */
+/* ==========================================================================
+   SkillVault - Search Catalog Page Styles
+   Digital Classroom & Subject Exploration Theme
+   Unified Studio Palette (#111315 / #1B1F22 / #242A2E / #D6B36A)
+   ========================================================================== */
 
 .search-card {
   margin-bottom: 2rem;
-  padding: 1.5rem;
+  padding: 1.75rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
 }
 
 .search-form {
@@ -14,18 +22,25 @@
 .search-input-wrapper {
   position: relative;
   flex: 1;
-  min-width: 240px;
+  min-width: 260px;
 }
 
 .search-input {
   width: 100%;
-  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  padding: 0.75rem 2.5rem 0.75rem 1.15rem;
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-sidebar);
+  color: var(--text-primary);
+  font-size: 0.95rem;
   box-sizing: border-box;
+  transition: all var(--transition-fast);
+}
+
+.search-input:focus {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 3px rgba(214, 179, 106, 0.2);
+  outline: none;
 }
 
 .search-clear-btn {
@@ -35,18 +50,37 @@
   transform: translateY(-50%);
   background: transparent;
   border: none;
-  color: var(--color-text-dim);
+  color: var(--text-muted);
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1rem;
   padding: 0.25rem;
+  line-height: 1;
+  transition: color var(--transition-fast);
+}
+
+.search-clear-btn:hover {
+  color: var(--text-primary);
 }
 
 .search-submit-btn {
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1.75rem;
+  background-color: var(--accent-gold);
+  color: var(--bg-primary);
+  font-weight: 700;
+  border: 1px solid var(--accent-gold);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.search-submit-btn:hover {
+  background-color: var(--accent-gold-hover);
+  border-color: var(--accent-gold-hover);
+  transform: translateY(-1px);
 }
 
 .search-suggestions-row {
-  margin-top: 1rem;
+  margin-top: 1.15rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -54,224 +88,246 @@
 }
 
 .search-suggestions-label {
-  font-size: 0.85rem;
-  color: var(--color-text-dim);
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--text-secondary);
 }
 
 .search-suggestion-pill {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-muted);
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
   border-radius: var(--radius-full);
-  padding: 0.2rem 0.65rem;
+  padding: 0.25rem 0.75rem;
   font-size: 0.8rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all var(--transition-fast);
 }
 
 .search-suggestion-pill:hover {
-  border-color: var(--color-primary);
-  color: var(--color-text);
+  border-color: var(--accent-gold);
+  background-color: var(--bg-hover);
+  color: var(--accent-gold);
 }
 
+/* Filter Tabs */
 .search-tabs-list {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid var(--color-border);
-  padding-bottom: 0.5rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.75rem;
   flex-wrap: wrap;
 }
 
 .search-tab-btn {
   font-size: 0.875rem;
-  padding: 0.4rem 0.85rem;
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-full);
 }
 
+/* Loading & Error States */
 .search-loading {
   text-align: center;
-  padding: 3rem 1rem;
+  padding: 4rem 1rem;
 }
 
 .search-loading-text {
-  color: var(--color-text-muted);
+  color: var(--text-muted);
+  font-size: 0.95rem;
 }
 
 .search-error-banner {
-  max-width: 600px;
+  max-width: 560px;
   margin: 2rem auto;
-  padding: 1.25rem;
+  padding: 1.5rem;
   border-radius: var(--radius-md);
-  background-color: rgba(239, 68, 68, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background-color: var(--error-red-bg);
+  border: 1px solid var(--error-red-border);
   text-align: center;
 }
 
 .search-error-msg {
-  color: var(--color-danger, #f87171);
+  color: var(--error-red);
   margin-bottom: 1rem;
+  font-weight: 600;
 }
 
+/* Empty State */
 .search-empty-state {
   text-align: center;
-  padding: 3rem 1.5rem;
-  max-width: 600px;
+  padding: 3.5rem 1.5rem;
+  max-width: 560px;
   margin: 2rem auto;
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-card);
+  border: 1px dashed var(--border-color);
 }
 
-.search-empty-icon {
-  font-size: 2.5rem;
+.search-empty-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
+  font-family: var(--font-heading);
 }
 
 .search-empty-desc {
-  color: var(--color-text-muted);
-  margin-top: 0.5rem;
-  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
-.search-empty-actions {
-  display: flex;
-  gap: 0.75rem;
-  justify-content: center;
-  flex-wrap: wrap;
+/* Search Sections */
+.search-section {
+  margin-bottom: 2.5rem;
 }
 
-.search-initial-state {
-  text-align: center;
-  padding: 3rem 1.5rem;
-  max-width: 700px;
-  margin: 1rem auto;
+.search-section-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: var(--font-heading);
+  margin-bottom: 1.25rem;
 }
 
-.search-results-container {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.search-section-heading {
-  font-size: 1.25rem;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.search-count-label {
-  font-size: 0.85rem;
-  color: var(--color-text-dim);
-}
-
+/* Skills Grid */
 .search-skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .search-skill-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   padding: 1.25rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-fast);
 }
 
-.search-card-top-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.search-skill-card:hover {
+  border-color: var(--accent-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.search-skill-name {
+  font-size: 1.1rem;
+  font-weight: 700;
   margin-bottom: 0.5rem;
 }
 
-.search-badge-skill {
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-accent);
-  background-color: rgba(129, 140, 248, 0.1);
-  padding: 0.15rem 0.5rem;
-  border-radius: var(--radius-sm);
-}
-
-.search-category-pill {
-  font-size: 0.8rem;
-  color: var(--color-text-dim);
-}
-
-.search-result-title {
-  font-size: 1.15rem;
-  margin: 0.25rem 0 0.5rem 0;
-}
-
-.search-result-title a {
-  color: var(--color-text);
+.search-skill-link {
+  color: var(--text-primary);
   text-decoration: none;
 }
 
-.search-result-title a:hover {
-  color: var(--color-primary);
+.search-skill-link:hover {
+  color: var(--accent-gold);
 }
 
-.search-result-icon {
-  margin-right: 0.4rem;
-}
-
-.search-result-desc {
-  color: var(--color-text-muted);
-  font-size: 0.9rem;
+.search-skill-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
   margin-bottom: 1rem;
 }
 
-.search-action-wrapper {
-  margin-top: 0.75rem;
+.search-skill-category {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  background-color: var(--accent-gold-bg);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-sm);
+  display: inline-block;
+  border: 1px solid var(--accent-gold-border);
 }
 
-.search-action-btn {
-  font-size: 0.85rem;
-  padding: 0.35rem 0.75rem;
-}
-
+/* Playlists Grid */
 .search-playlists-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
 }
 
 .search-playlist-card {
+  padding: 1.25rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 1.25rem;
+  transition: all var(--transition-fast);
 }
 
-.search-badge-playlist {
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-warning);
-  background-color: rgba(251, 191, 36, 0.1);
-  padding: 0.15rem 0.5rem;
-  border-radius: var(--radius-sm);
+.search-playlist-card:hover {
+  border-color: var(--accent-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
+.search-playlist-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.search-playlist-link {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.search-playlist-link:hover {
+  color: var(--accent-gold);
+}
+
+.search-playlist-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 1rem;
+}
+
+.search-playlist-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-color);
+  padding-top: 0.75rem;
+}
+
+/* Videos List */
 .search-videos-list {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .search-video-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.25rem;
-  gap: 1rem;
   flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.25rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-fast);
 }
 
-.search-video-meta {
+.search-video-item:hover {
+  border-color: var(--accent-gold);
+  background-color: var(--bg-hover);
+}
+
+.search-video-content {
   flex: 1;
   min-width: 240px;
 }
@@ -280,29 +336,32 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.25rem;
-  flex-wrap: wrap;
+  margin-bottom: 0.4rem;
 }
 
-.search-badge-video {
-  font-size: 0.7rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-primary);
-  background-color: rgba(56, 189, 248, 0.1);
-  padding: 0.1rem 0.45rem;
-  border-radius: var(--radius-sm);
+.search-video-skill-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  background-color: var(--accent-gold-bg);
+  border: 1px solid var(--accent-gold-border);
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-full);
 }
 
 .search-video-title {
   font-size: 1.05rem;
-  margin: 0 0 0.35rem 0;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
 }
 
 .search-video-title a {
-  color: var(--color-text);
+  color: var(--text-primary);
   text-decoration: none;
+}
+
+.search-video-title a:hover {
+  color: var(--accent-gold);
 }
 
 .search-video-details {
@@ -310,22 +369,10 @@
   align-items: center;
   gap: 0.75rem;
   font-size: 0.8rem;
-}
-
-.search-video-duration {
-  color: var(--color-text-muted);
-}
-
-.search-video-transcript {
-  color: var(--color-success);
-  font-weight: 500;
-}
-
-.search-video-fallback {
-  color: var(--color-text-dim);
+  color: var(--text-muted);
 }
 
 .search-video-watch-btn {
   font-size: 0.85rem;
-  padding: 0.4rem 0.85rem;
+  padding: 0.45rem 1rem;
 }

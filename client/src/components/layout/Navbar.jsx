@@ -18,20 +18,24 @@ export function Navbar() {
         Skip to main content
       </a>
       <div className="navbar-container">
-        <Link to="/" className="brand-logo" aria-label="SkillVault Home">
-          <span>⚡SkillVault</span>
-          <span className="brand-badge">Computing</span>
-        </Link>
+        <div className="brand-logo" aria-label="SkillVault">
+          <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ borderRadius: '6px', flexShrink: 0 }}>
+            <rect width="100" height="100" rx="20" fill="#17191B" />
+            <rect x="5" y="5" width="90" height="90" rx="16" fill="none" stroke="#B68A55" strokeWidth="3" />
+            <path d="M54 16 L26 54 L48 54 L44 84 L74 46 L52 46 Z" fill="#D5AD54" stroke="#F7F7F4" strokeWidth="1.5" />
+          </svg>
+          <span className="brand-title">SkillVault</span>
+        </div>
 
         <nav aria-label="Main Navigation">
           <ul className="nav-links">
             <li>
               <NavLink
                 to="/"
-                className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 end
+                className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
               >
-                Explore
+                Home
               </NavLink>
             </li>
             <li>
@@ -91,7 +95,10 @@ export function Navbar() {
                 className="btn btn-secondary nav-profile-btn"
                 title="View Profile"
               >
-                <span>👤</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
                 <span>{user?.name?.split(' ')[0] || 'Profile'}</span>
                 {user?.role === 'admin' && (
                   <span className="nav-admin-badge">

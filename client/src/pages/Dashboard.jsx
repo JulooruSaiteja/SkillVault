@@ -94,7 +94,7 @@ export function Dashboard() {
       <div className="page-header">
         <h1 className="page-title">Welcome back, {user?.name || 'Learner'}</h1>
         <p className="page-description">
-          Monitor your computing milestones, resume where you left off, and track practice quiz scores.
+          Monitor your learning milestones, resume where you left off, and track practice quiz scores.
         </p>
       </div>
 
@@ -142,7 +142,7 @@ export function Dashboard() {
           <div className="dashboard-empty-icon">🚀</div>
           <h2 className="dashboard-empty-title">Start Your Learning Journey</h2>
           <p className="dashboard-empty-desc">
-            You haven't watched any lessons or attempted any quizzes yet. Explore curated computing skills and technical tracks.
+            You haven't watched any lessons or attempted any quizzes yet. Explore curated skills and technical tracks.
           </p>
           <Link to="/categories" className="btn btn-primary">
             Explore Catalog

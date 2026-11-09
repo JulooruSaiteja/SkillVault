@@ -1,22 +1,54 @@
-/* Shared Authentication Styles (Login & Signup) */
+/* ==========================================================================
+   SkillVault - Shared Authentication Styles (Login & Signup)
+   Digital Classroom Learner Desk Theme
+   Unified Studio Palette (#111315 / #1B1F22 / #D6B36A)
+   ========================================================================== */
 
 .auth-container {
   max-width: 440px;
-  margin: 2rem auto;
+  margin: 3rem auto 4.5rem;
+  padding: 0 1rem;
 }
 
 .auth-header {
   text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-header .page-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
+
+.auth-header .page-description {
+  font-size: 0.95rem;
+  margin: 0 auto;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.auth-container .card {
+  padding: 2.25rem 2rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
 }
 
 .auth-error-alert {
-  padding: 0.75rem 1rem;
-  margin-bottom: 1.25rem;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.5rem;
   border-radius: var(--radius-md);
-  background-color: rgba(239, 68, 68, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  color: var(--color-danger, #f87171);
-  font-size: 0.9rem;
+  background-color: var(--error-red-bg);
+  border: 1px solid var(--error-red-border);
+  color: var(--error-red);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.45;
 }
 
 .auth-form {
@@ -27,35 +59,72 @@
 
 .auth-label {
   display: block;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 600;
   margin-bottom: 0.4rem;
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
 }
 
 .auth-input {
   width: 100%;
-  padding: 0.65rem 0.85rem;
+  padding: 0.7rem 0.95rem;
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-sidebar);
+  color: var(--text-primary);
+  font-size: 0.95rem;
   box-sizing: border-box;
+  transition: all var(--transition-fast);
+}
+
+.auth-input:focus {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 3px rgba(214, 179, 106, 0.2);
+  outline: none;
 }
 
 .auth-submit-btn {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
+  min-height: 44px;
   margin-top: 0.5rem;
+  font-size: 0.95rem;
+  background-color: var(--accent-gold);
+  color: var(--bg-primary);
+  font-weight: 700;
+  border: 1px solid var(--accent-gold);
+  border-radius: var(--radius-md);
   cursor: pointer;
+  transition: all var(--transition-fast);
+  letter-spacing: 0.01em;
+}
+
+.auth-submit-btn:hover {
+  background-color: var(--accent-gold-hover);
+  border-color: var(--accent-gold-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(214, 179, 106, 0.3);
 }
 
 .auth-submit-btn.is-submitting {
   cursor: wait;
+  opacity: 0.8;
 }
 
 .auth-footer-text {
   text-align: center;
-  margin-top: 1.5rem;
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
+  margin-top: 1.75rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.auth-footer-text a {
+  font-weight: 600;
+  color: var(--accent-gold);
+  text-decoration: underline;
+  transition: color var(--transition-fast);
+}
+
+.auth-footer-text a:hover {
+  color: var(--accent-gold-hover);
 }

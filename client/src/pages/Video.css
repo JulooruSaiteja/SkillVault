@@ -1,33 +1,40 @@
-/* Video Page Styles */
+/* ==========================================================================
+   SkillVault - Video Lesson Classroom Page Styles
+   Digital Classroom & Student Notebook Aesthetics
+   ========================================================================== */
 
 .video-loading-container {
   text-align: center;
-  padding: 4rem 1rem;
+  padding: 5rem 1rem;
 }
 
 .video-loading-text {
-  color: var(--color-text-muted);
+  color: var(--chalk-muted);
+  font-size: 0.95rem;
 }
 
 .video-error-card {
-  max-width: 600px;
+  max-width: 560px;
   margin: 3rem auto;
-  padding: 1.5rem;
+  padding: 1.75rem;
   border-radius: var(--radius-md);
-  background-color: rgba(239, 68, 68, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background-color: rgba(239, 68, 68, 0.12);
+  border: 1px solid var(--teacher-red);
   text-align: center;
 }
 
 .video-error-title {
-  font-size: 1.25rem;
-  color: #f87171;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #F87171;
   margin-bottom: 0.75rem;
+  font-family: var(--font-heading);
 }
 
 .video-error-desc {
-  color: var(--color-text-muted);
+  color: var(--chalk-muted);
   margin-bottom: 1.5rem;
+  font-size: 0.95rem;
 }
 
 .video-error-actions {
@@ -36,9 +43,11 @@
   justify-content: center;
 }
 
+/* Breadcrumb Navigation */
 .video-breadcrumb {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
   font-size: 0.875rem;
+  min-height: 24px;
 }
 
 .video-breadcrumb-list {
@@ -52,18 +61,27 @@
 }
 
 .video-breadcrumb-link {
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: color var(--transition-fast);
+}
+
+.video-breadcrumb-link:hover {
+  color: var(--accent-gold);
+  text-decoration: underline;
 }
 
 .video-breadcrumb-sep {
-  color: var(--color-text-dim);
+  color: var(--text-muted);
+  user-select: none;
 }
 
 .video-breadcrumb-current {
-  color: var(--color-primary);
-  font-weight: 600;
+  color: var(--text-primary);
+  font-weight: 700;
 }
 
+/* Layout Grid */
 .video-layout-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -72,32 +90,34 @@
 }
 
 .video-layout-grid.with-playlist {
-  grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
+  grid-template-columns: minmax(0, 1fr) 340px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .video-layout-grid.with-playlist {
     grid-template-columns: 1fr;
   }
 }
 
+/* Resume Playback Banner */
 .video-resume-banner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.75rem;
-  background-color: rgba(56, 189, 248, 0.12);
-  border: 1px solid rgba(56, 189, 248, 0.35);
+  background-color: rgba(214, 179, 106, 0.08);
+  border: 1px solid rgba(214, 179, 106, 0.28);
   border-radius: var(--radius-md);
-  padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
+  padding: 0.85rem 1.15rem;
+  margin-top: 0.85rem;
+  margin-bottom: 0;
 }
 
 .video-resume-info {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.65rem;
 }
 
 .video-resume-icon {
@@ -106,11 +126,12 @@
 
 .video-resume-text {
   font-size: 0.9rem;
-  color: var(--color-text);
+  color: var(--chalk-white);
 }
 
 .video-resume-highlight {
-  color: var(--color-primary);
+  color: var(--chalk-yellow);
+  font-weight: 700;
 }
 
 .video-resume-actions {
@@ -122,34 +143,35 @@
 .video-sm-btn {
   font-size: 0.8rem;
   padding: 0.35rem 0.75rem;
+  min-height: 32px;
 }
 
+/* Video Player Wrapper: Stable 16:9 Aspect Ratio Container */
 .video-player-wrapper {
   position: relative;
   width: 100%;
-  padding-top: 56.25%;
-  background-color: #000;
-  border-radius: var(--radius-lg);
+  aspect-ratio: 16 / 9;
+  background-color: #0A0D10;
+  border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: var(--shadow-lg);
-  margin-bottom: 0.75rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--board-border);
+  contain: layout paint;
 }
 
-.video-player-mount {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.video-player-iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
+.video-player-mount,
+.video-player-iframe,
+.video-player-wrapper iframe,
+.video-iframe-el {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
 }
 
 .video-player-fallback {
@@ -164,106 +186,99 @@
   justify-content: center;
   padding: 2rem;
   text-align: center;
-  background-color: rgba(15, 23, 42, 0.95);
-  color: var(--color-text-muted);
+  background-color: #12161A;
+  color: var(--chalk-white);
 }
 
-.video-player-notice-title {
-  color: #f87171;
-  margin-bottom: 0.75rem;
-  font-weight: 600;
-}
-
-.video-player-notice-desc {
-  font-size: 0.9rem;
-  max-width: 450px;
-  margin-bottom: 1rem;
-}
-
-.video-playback-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-  margin-bottom: 1.25rem;
-  padding: 0 0.25rem;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.video-playback-bold {
-  color: var(--color-text);
-}
-
-.video-completed-text {
-  color: var(--color-success);
-  font-weight: 600;
-}
-
-.video-dim-text {
-  color: var(--color-text-dim);
-}
-
-.video-card-main {
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.video-header-top {
+/* Playback Progress Ribbon */
+.video-playback-bar,
+.video-progress-ribbon {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-bottom: 0.5rem;
+  padding: 0.75rem 1rem;
+  min-height: 48px;
+  background-color: var(--board-surface);
+  border: 1px solid var(--board-border);
+  border-radius: var(--radius-md);
+  margin-top: 0.85rem;
+  font-size: 0.85rem;
+  color: var(--chalk-muted);
+}
+
+.video-playback-bold {
+  color: var(--chalk-yellow);
+  font-weight: 700;
+}
+
+.video-playback-check {
+  color: var(--chalk-green);
+  font-weight: 700;
+}
+
+.video-signin-link {
+  color: var(--chalk-yellow);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+/* Video Card Main */
+.video-card-main {
+  background-color: var(--board-surface);
+  border: 1px solid var(--board-border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  margin-top: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  contain: layout style;
+}
+
+.video-header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .video-badges-row {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .video-skill-badge {
+  background-color: rgba(254, 240, 138, 0.12);
+  color: var(--chalk-yellow);
+  border: 1px solid rgba(254, 240, 138, 0.28);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
   font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-primary);
-  background-color: rgba(56, 189, 248, 0.1);
-  padding: 0.15rem 0.5rem;
-  border-radius: var(--radius-sm);
+  font-weight: 700;
 }
 
 .video-duration-badge {
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-}
-
-.video-transcript-badge {
+  background-color: var(--board-surface-light);
+  color: var(--chalk-muted);
+  border: 1px solid var(--board-border);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
   font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--color-success);
-  background-color: rgba(52, 211, 153, 0.1);
-  padding: 0.15rem 0.5rem;
-  border-radius: var(--radius-sm);
-}
-
-.video-fallback-badge {
-  font-size: 0.75rem;
-  color: var(--color-text-dim);
-  background-color: rgba(255, 255, 255, 0.05);
-  padding: 0.15rem 0.5rem;
-  border-radius: var(--radius-sm);
+  font-weight: 600;
 }
 
 .video-done-badge {
+  background-color: rgba(74, 222, 128, 0.15);
+  color: var(--chalk-green);
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
   font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-success);
-  background-color: rgba(52, 211, 153, 0.15);
-  padding: 0.15rem 0.5rem;
-  border-radius: var(--radius-sm);
+  font-weight: 700;
 }
 
 .video-header-actions {
@@ -273,195 +288,323 @@
 }
 
 .video-bookmark-btn {
-  font-size: 0.8rem;
-  padding: 0.35rem 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.9rem;
 }
 
 .video-title-heading {
-  font-size: 1.45rem;
-  margin: 0.5rem 0 1rem 0;
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--chalk-white);
+  line-height: 1.35;
+  margin: 0.5rem 0 1.5rem 0;
+  font-family: var(--font-heading);
+  min-height: 2.25rem;
 }
 
+/* Feature Tabs */
 .video-tabs-list {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
-  border-bottom: 1px solid var(--color-border);
-  padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--board-border);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
   flex-wrap: wrap;
 }
 
 .video-tab-btn {
   font-size: 0.85rem;
-  padding: 0.35rem 0.75rem;
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
 }
 
 .video-tab-content {
-  padding: 1rem 0;
+  margin-top: 1rem;
+  min-height: 380px;
 }
 
+/* Overview Tab */
 .video-overview-heading {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  color: var(--color-text-dim);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--chalk-yellow);
+  font-family: var(--font-heading);
+  margin-bottom: 0.75rem;
 }
 
 .video-overview-desc {
-  color: var(--color-text-muted);
-  line-height: 1.6;
   font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--chalk-white);
+  opacity: 0.92;
+  white-space: pre-line;
 }
+
+/* ==========================================================================
+   GENERATED NOTES: STUDENT STUDY JOURNAL AESTHETIC
+   Warm notebook paper, margin rule, ruled lines, readable ink, monospace defs
+   ========================================================================== */
 
 .video-notes-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .video-notes-title {
-  font-size: 1.15rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--chalk-white);
   margin: 0 0 0.25rem 0;
+  font-family: var(--font-heading);
 }
 
 .video-notes-subtitle {
   font-size: 0.8rem;
-  color: var(--color-text-dim);
+  color: var(--chalk-muted);
 }
 
 .video-cached-badge {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.6rem;
+  background-color: rgba(74, 222, 128, 0.15);
+  color: var(--chalk-green);
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  padding: 0.25rem 0.65rem;
   border-radius: var(--radius-full);
-  background-color: rgba(56, 189, 248, 0.1);
-  color: var(--color-primary);
-  border: 1px solid rgba(56, 189, 248, 0.25);
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 
 .video-notes-error {
+  background-color: rgba(239, 68, 68, 0.12);
+  border: 1px solid var(--teacher-red);
+  color: #FCA5A5;
   padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
-  background-color: rgba(248, 113, 113, 0.1);
-  border: 1px solid var(--color-danger);
   border-radius: var(--radius-md);
-  color: var(--color-danger);
-  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.9rem;
 }
 
 .video-notes-error-close {
   background: transparent;
   border: none;
-  color: var(--color-danger);
+  color: #FCA5A5;
   cursor: pointer;
   font-size: 1rem;
-  line-height: 1;
 }
 
 .video-notes-loading {
-  padding: 2rem;
   text-align: center;
-  color: var(--color-text-muted);
+  padding: 2.5rem 1rem;
+  color: var(--chalk-muted);
+  font-size: 0.95rem;
 }
 
-.video-notes-list {
+/* Student Notebook Container */
+.student-notebook {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--border-color);
+}
+
+/* Notebook Header Spiral / Top Bar */
+.notebook-spiral-header {
+  background-color: var(--bg-sidebar);
+  border-bottom: 2px solid var(--border-color);
+  padding: 0.85rem 1.5rem;
   display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
-.video-notes-card {
-  background-color: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: 1.25rem;
+.notebook-stamp-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
 }
 
-.video-notes-section-title {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.5rem;
+.notebook-journal-icon {
+  font-size: 1.5rem;
 }
 
-.video-notes-section-title.title-primary {
-  color: var(--color-primary);
-}
-
-.video-notes-section-title.title-accent {
-  color: var(--color-accent);
-  margin-bottom: 0.75rem;
-}
-
-.video-notes-section-title.title-success {
-  color: var(--color-success);
-  margin-bottom: 0.75rem;
-}
-
-.video-notes-section-title.title-warning {
-  color: var(--color-warning);
-  margin-bottom: 0.75rem;
-}
-
-.video-notes-body {
-  color: var(--color-text);
-  line-height: 1.6;
-  font-size: 0.95rem;
-}
-
-.video-concept-item {
-  background-color: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: 1rem;
-}
-
-.video-concept-title {
-  color: var(--color-text);
-  font-size: 0.95rem;
+.notebook-journal-title {
   display: block;
-  margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--accent-gold);
+  font-family: var(--font-heading);
 }
 
-.video-concept-desc {
-  color: var(--color-text-muted);
+.notebook-topic-stamp {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.notebook-verified-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--success-green);
+  background-color: var(--success-green-bg);
+  border: 1px dashed var(--success-green-border);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-caveat);
+  letter-spacing: 0.02em;
+}
+
+/* Notebook Ruled Page */
+.notebook-ruled-page {
+  padding: 2rem 2.25rem 2.5rem 3.5rem;
+  position: relative;
+  background-color: var(--bg-card);
+  /* Notebook Ruled Lines with subtle horizontal lines */
+  background-image: linear-gradient(rgba(214, 179, 106, 0.06) 1px, transparent 1px);
+  background-size: 100% 2.25rem;
+  line-height: 2.25rem;
+}
+
+/* Student Notebook Left Margin Line (Red ink guideline) */
+.notebook-ruled-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 2.5rem;
+  width: 2px;
+  background-color: rgba(248, 113, 113, 0.35);
+}
+
+.notebook-section {
+  margin-bottom: 2rem;
+}
+
+.notebook-handwritten-title {
+  font-family: var(--font-kalam);
+  font-size: 1.45rem;
+  font-weight: 700;
+  margin: 0 0 0.85rem 0;
+  display: inline-block;
+  padding-bottom: 0.25rem;
+  line-height: 1.4;
+}
+
+.notebook-handwritten-title.title-summary {
+  color: var(--success-green);
+  border-bottom: 2px solid var(--success-green-border);
+}
+
+.notebook-handwritten-title.title-concepts {
+  color: var(--accent-gold);
+  border-bottom: 2px solid var(--accent-gold-border);
+}
+
+.notebook-handwritten-title.title-defs {
+  color: var(--information-blue);
+  border-bottom: 2px solid var(--information-blue-border);
+}
+
+.notebook-handwritten-title.title-takeaways {
+  color: var(--highlight-yellow-bold);
+  border-bottom: 2px solid var(--accent-gold-border);
+}
+
+.notebook-ink-body {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin: 0;
+  font-family: var(--font-body);
+}
+
+/* Concepts & Definitions Grid */
+.notebook-concepts-grid,
+.notebook-definitions-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+}
+
+.notebook-concept-card {
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.15rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.notebook-concept-title {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 700;
+}
+
+.notebook-concept-desc {
   font-size: 0.9rem;
-  line-height: 1.5;
+  color: var(--text-secondary);
+  line-height: 1.6;
   margin: 0;
 }
 
-.video-def-code {
-  color: var(--color-success);
+.notebook-def-code {
+  font-family: var(--font-mono);
   font-size: 0.9rem;
-  font-weight: 600;
+  background-color: var(--bg-sidebar);
+  color: var(--accent-gold);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
   display: inline-block;
-  margin-bottom: 0.25rem;
-}
-
-.video-takeaways-list {
-  padding-left: 1.25rem;
-  color: var(--color-text-muted);
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-
-.video-takeaway-item {
   margin-bottom: 0.35rem;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
 }
 
+.notebook-takeaways-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.notebook-takeaway-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.925rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.notebook-bullet-dash {
+  font-weight: 800;
+  color: var(--accent-gold);
+  user-select: none;
+}
+
+/* Empty Notes Box */
 .video-notes-empty-box {
-  background-color: rgba(255, 255, 255, 0.02);
-  border: 1px dashed var(--color-border);
+  background-color: rgba(0, 0, 0, 0.15);
+  border: 1px dashed var(--board-border);
   border-radius: var(--radius-lg);
-  padding: 2rem 1.5rem;
+  padding: 2.5rem 1.5rem;
   text-align: center;
 }
 
@@ -471,303 +614,431 @@
 }
 
 .video-notes-empty-title {
-  font-size: 1.1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--chalk-white);
   margin-bottom: 0.5rem;
+  font-family: var(--font-heading);
 }
 
 .video-notes-empty-desc {
-  color: var(--color-text-muted);
-  font-size: 0.9rem;
-  line-height: 1.5;
-  margin-bottom: 1.25rem;
+  color: var(--chalk-muted);
+  font-size: 0.925rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.video-quota-allowance-text {
+  font-size: 0.85rem;
+  color: var(--chalk-muted);
+  margin-bottom: 1rem;
 }
 
 .video-quota-warn-banner {
-  padding: 0.75rem 1rem;
-  background-color: rgba(251, 191, 36, 0.1);
-  border: 1px solid var(--color-warning);
+  background-color: rgba(217, 119, 6, 0.15);
+  border: 1px solid var(--chalk-yellow);
+  color: var(--chalk-yellow);
+  padding: 0.65rem 1rem;
   border-radius: var(--radius-md);
-  color: var(--color-warning);
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   margin-bottom: 1rem;
 }
 
 .video-quota-info-banner {
-  padding: 0.75rem 1rem;
-  background-color: rgba(56, 189, 248, 0.1);
-  border: 1px solid var(--color-primary);
+  background-color: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  color: #93C5FD;
+  padding: 0.65rem 1rem;
   border-radius: var(--radius-md);
-  color: var(--color-primary);
-  font-size: 0.875rem;
-  margin-bottom: 1rem;
-}
-
-.video-quota-allowance-text {
-  font-size: 0.8rem;
-  color: var(--color-text-dim);
+  font-size: 0.85rem;
   margin-bottom: 1rem;
 }
 
 .video-generate-btn {
+  font-size: 0.95rem;
   padding: 0.65rem 1.5rem;
 }
 
-.video-generate-btn.is-disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+/* ==========================================================================
+   PRACTICE QUIZ: DIGITAL CLASSROOM & EVALUATION
+   Graded assessment slip, handwritten questions, ticks & crosses, feedback
+   ========================================================================== */
 
 .video-quiz-badge {
+  background-color: rgba(254, 240, 138, 0.12);
+  color: var(--chalk-yellow);
+  border: 1px solid rgba(254, 240, 138, 0.28);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
   font-size: 0.75rem;
-  background-color: rgba(56, 189, 248, 0.1);
-  color: var(--color-primary);
-  padding: 0.2rem 0.5rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(56, 189, 248, 0.2);
+  font-weight: 700;
 }
 
 .video-quiz-quota-bar {
-  background-color: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: 0.75rem 1rem;
-  margin-bottom: 1.25rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  background-color: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--board-border);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.25rem;
   font-size: 0.85rem;
+  color: var(--chalk-muted);
 }
 
 .video-quiz-quota-danger {
-  color: var(--color-danger, #ef4444);
-  background-color: rgba(239, 68, 68, 0.1);
-  padding: 0.2rem 0.5rem;
-  border-radius: var(--radius-sm);
-  font-weight: 500;
+  color: #F87171;
+  font-weight: 600;
 }
 
 .video-quiz-error {
-  background-color: rgba(239, 68, 68, 0.1);
-  border: 1px solid var(--color-danger, #ef4444);
+  background-color: rgba(239, 68, 68, 0.12);
+  border: 1px solid var(--teacher-red);
+  color: #FCA5A5;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+}
+
+/* Teacher's Graded Slip (Post-Quiz Banner) */
+.teacher-grade-card {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--accent-gold);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  position: relative;
+}
+
+.teacher-grade-card::after {
+  content: 'GRADED';
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  font-family: var(--font-handwriting);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--error-red);
+  border: 2px solid var(--error-red);
+  padding: 0.1rem 0.6rem;
+  border-radius: var(--radius-sm);
+  transform: rotate(-8deg);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.teacher-grade-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.teacher-score-stamp {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 3px solid var(--error-red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--error-red);
+  font-family: var(--font-kalam);
+  font-weight: 700;
+  background-color: var(--error-red-bg);
+}
+
+.teacher-score-num {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.teacher-score-divider {
+  font-size: 1.5rem;
+  opacity: 0.6;
+  margin: 0 1px;
+}
+
+.teacher-score-den {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.teacher-grade-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.teacher-eval-tag {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+}
+
+.teacher-grade-pct {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  font-family: var(--font-heading);
+}
+
+.teacher-remark-box {
+  flex: 1;
+  min-width: 240px;
+  background-color: var(--bg-elevated);
+  border: 1px dashed var(--border-color);
   border-radius: var(--radius-md);
   padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
-  color: var(--color-danger, #ef4444);
-  font-size: 0.9rem;
 }
 
-.video-quiz-score-banner {
-  background-color: rgba(56, 189, 248, 0.08);
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.video-quiz-score-val {
-  font-size: 1.8rem;
+.teacher-remark-kicker {
+  font-size: 0.75rem;
   font-weight: 700;
-  color: var(--color-primary);
-  margin-top: 0.25rem;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  display: block;
+  margin-bottom: 0.2rem;
 }
 
-.video-quiz-score-pct {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: var(--color-text-muted);
-  margin-left: 0.5rem;
-}
-
-.video-quiz-score-msg {
-  margin: 0.5rem 0 0 0;
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
+.teacher-remark-note {
+  font-family: var(--font-kalam);
+  font-size: 1.15rem;
+  color: var(--text-primary);
+  line-height: 1.45;
+  margin: 0;
 }
 
 .video-quiz-retake-btn {
-  font-size: 0.9rem;
-  padding: 0.5rem 1.25rem;
+  font-size: 0.85rem;
+  padding: 0.45rem 1rem;
 }
 
+/* Evaluated Questions List */
 .video-quiz-results-list {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .video-quiz-eval-card {
-  background-color: rgba(255, 255, 255, 0.02);
+  background-color: var(--board-surface-light);
+  border: 1px solid var(--board-border);
   border-radius: var(--radius-lg);
-  padding: 1.25rem;
+  padding: 1.5rem;
+  transition: all var(--transition-fast);
 }
 
 .video-quiz-eval-card.is-correct {
-  border: 1px solid rgba(34, 197, 94, 0.4);
+  border-left: 4px solid var(--teacher-green);
 }
 
 .video-quiz-eval-card.is-incorrect {
-  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-left: 4px solid var(--teacher-red);
 }
 
 .video-quiz-eval-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 0.75rem;
 }
 
 .video-quiz-eval-label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--color-text-dim);
+  font-size: 0.75rem;
   text-transform: uppercase;
-}
-
-.video-quiz-eval-badge {
-  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  color: var(--chalk-muted);
   font-weight: 600;
-  padding: 0.2rem 0.6rem;
-  border-radius: var(--radius-sm);
 }
 
-.video-quiz-eval-badge.is-correct {
-  background-color: rgba(34, 197, 94, 0.15);
-  color: var(--color-success, #22c55e);
+/* Handwritten Teacher Status Marks (Tick & Cross) */
+.teacher-status-mark {
+  font-family: var(--font-caveat);
+  font-size: 1.15rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.65rem;
+  border-radius: var(--radius-full);
 }
 
-.video-quiz-eval-badge.is-incorrect {
-  background-color: rgba(239, 68, 68, 0.15);
-  color: var(--color-danger, #ef4444);
+.teacher-status-mark.mark-correct {
+  color: var(--chalk-green);
+  background-color: rgba(74, 222, 128, 0.12);
+  border: 1px solid rgba(74, 222, 128, 0.3);
 }
 
-.video-quiz-question-title {
-  font-size: 1rem;
-  line-height: 1.5;
-  margin: 0 0 1rem 0;
+.teacher-status-mark.mark-incorrect {
+  color: #F87171;
+  background-color: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.teacher-mark-symbol {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+/* Chalk Question Title */
+.chalk-question-title {
+  font-family: var(--font-kalam);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--chalk-white);
+  line-height: 1.45;
+  margin: 0.25rem 0 1rem 0;
+  letter-spacing: 0.01em;
 }
 
 .video-quiz-options-list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.65rem;
   margin-bottom: 1rem;
 }
 
 .video-quiz-eval-opt {
-  border: 1px solid var(--color-border);
-  background-color: rgba(255, 255, 255, 0.01);
-  border-radius: var(--radius-md);
-  padding: 0.75rem 1rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  background-color: var(--board-surface);
+  border: 1px solid var(--board-border);
   font-size: 0.9rem;
-  color: var(--color-text-muted);
+  color: var(--chalk-white);
+  line-height: 1.5;
 }
 
 .video-quiz-eval-opt.opt-correct {
-  border-color: var(--color-success, #22c55e);
-  background-color: rgba(34, 197, 94, 0.08);
-  color: var(--color-text);
+  border-color: rgba(74, 222, 128, 0.5);
+  background-color: rgba(74, 222, 128, 0.08);
+  color: var(--chalk-white);
 }
 
 .video-quiz-eval-opt.opt-incorrect {
-  border-color: var(--color-danger, #ef4444);
+  border-color: rgba(239, 68, 68, 0.5);
   background-color: rgba(239, 68, 68, 0.08);
-  color: var(--color-text);
+  color: var(--chalk-white);
 }
 
-.video-quiz-opt-correct-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-success, #22c55e);
+.teacher-correct-tag {
+  font-family: var(--font-caveat);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--chalk-green);
+  margin-left: 0.75rem;
+  white-space: nowrap;
 }
 
-.video-quiz-opt-wrong-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-danger, #ef4444);
+.teacher-incorrect-tag {
+  font-family: var(--font-caveat);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #F87171;
+  margin-left: 0.75rem;
+  white-space: nowrap;
 }
 
-.video-quiz-explanation-box {
-  background-color: rgba(56, 189, 248, 0.05);
-  border: 1px solid rgba(56, 189, 248, 0.2);
+/* Teacher's Clarification Feedback Box */
+.teacher-feedback-box {
+  background-color: rgba(254, 240, 138, 0.08);
+  border: 1px dashed rgba(254, 240, 138, 0.3);
   border-radius: var(--radius-md);
-  padding: 0.85rem 1rem;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  color: var(--color-text-muted);
+  padding: 0.85rem 1.15rem;
+  margin-top: 0.75rem;
 }
 
-.video-quiz-explanation-title {
-  color: var(--color-primary);
+.teacher-feedback-title {
+  color: var(--chalk-yellow);
+  font-family: var(--font-kalam);
+  font-size: 1.05rem;
   display: block;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.35rem;
 }
 
+.teacher-feedback-text {
+  font-size: 0.875rem;
+  color: var(--chalk-white);
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.95;
+}
+
+/* Taking the Quiz (Before Submission) */
 .video-quiz-instruction-card {
-  background-color: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--color-border);
+  background-color: rgba(254, 240, 138, 0.06);
+  border: 1px solid rgba(254, 240, 138, 0.18);
   border-radius: var(--radius-md);
-  padding: 0.85rem 1rem;
+  padding: 0.85rem 1.15rem;
   font-size: 0.9rem;
-  color: var(--color-text-muted);
+  color: var(--chalk-muted);
+  margin-bottom: 1.25rem;
 }
 
 .video-quiz-take-card {
-  background-color: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--color-border);
+  background-color: var(--board-surface-light);
+  border: 1px solid var(--board-border);
   border-radius: var(--radius-lg);
-  padding: 1.25rem;
-}
-
-.video-quiz-take-title {
-  font-size: 1.05rem;
-  line-height: 1.5;
-  margin: 0.5rem 0 1rem 0;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-xs);
 }
 
 .video-quiz-opt-btn {
   text-align: left;
-  border: 1px solid var(--color-border);
-  background-color: rgba(255, 255, 255, 0.01);
+  border: 1px solid var(--board-border);
+  background-color: var(--board-surface);
   border-radius: var(--radius-md);
-  padding: 0.75rem 1rem;
-  color: var(--color-text-muted);
+  padding: 0.85rem 1.15rem;
+  color: var(--chalk-white);
   cursor: pointer;
   font-size: 0.9rem;
-  line-height: 1.4;
-  transition: border-color 0.15s, background-color 0.15s;
+  line-height: 1.5;
+  transition: all var(--transition-fast);
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.85rem;
   width: 100%;
 }
 
+.video-quiz-opt-btn:hover {
+  background-color: var(--board-surface-light);
+  border-color: rgba(254, 240, 138, 0.4);
+}
+
 .video-quiz-opt-btn.is-selected {
-  border-color: var(--color-primary);
-  background-color: rgba(56, 189, 248, 0.08);
-  color: var(--color-text);
+  border-color: var(--chalk-yellow);
+  background-color: rgba(254, 240, 138, 0.12);
+  color: var(--chalk-yellow);
+  font-weight: 600;
 }
 
 .video-quiz-radio-circle {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  border: 2px solid var(--color-text-dim);
+  border: 2px solid var(--board-border);
   flex-shrink: 0;
   display: inline-block;
+  transition: all var(--transition-fast);
 }
 
 .video-quiz-radio-circle.is-selected {
-  border: 5px solid var(--color-primary);
+  border: 5px solid var(--chalk-yellow);
+  background-color: var(--chalk-white);
 }
 
 .video-quiz-submit-bar {
@@ -776,25 +1047,21 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
-  padding: 1rem 0;
-  border-top: 1px solid var(--color-border);
+  padding: 1.25rem 0 0.5rem;
+  border-top: 1px solid var(--board-border);
+  margin-top: 1.5rem;
 }
 
 .video-quiz-submit-btn {
   font-size: 0.95rem;
-  padding: 0.6rem 1.5rem;
-}
-
-.video-quiz-submit-btn.is-disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  padding: 0.65rem 1.65rem;
 }
 
 .video-quiz-empty-box {
-  background-color: rgba(255, 255, 255, 0.02);
-  border: 1px dashed var(--color-border);
+  background-color: rgba(0, 0, 0, 0.15);
+  border: 1px dashed var(--board-border);
   border-radius: var(--radius-lg);
-  padding: 2.5rem 1.5rem;
+  padding: 3rem 1.5rem;
   text-align: center;
 }
 
@@ -804,21 +1071,24 @@
 }
 
 .video-quiz-empty-title {
-  font-size: 1.15rem;
+  font-size: 1.25rem;
+  font-weight: 700;
   margin-bottom: 0.5rem;
+  color: var(--chalk-white);
+  font-family: var(--font-heading);
 }
 
 .video-quiz-empty-desc {
-  color: var(--color-text-muted);
+  color: var(--chalk-muted);
   font-size: 0.95rem;
   max-width: 520px;
   margin: 0 auto 1.5rem auto;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .video-quiz-signin-btn {
   font-size: 0.9rem;
-  padding: 0.5rem 1.25rem;
+  padding: 0.55rem 1.35rem;
 }
 
 .video-quiz-prompt-actions {
@@ -829,53 +1099,56 @@
 }
 
 .video-quiz-error-msg {
-  color: var(--color-danger, #ef4444);
+  color: #F87171;
   font-size: 0.85rem;
   margin: 0;
 }
 
-.video-transcript-box {
-  max-height: 320px;
-  overflow-y: auto;
-  background-color: rgba(0, 0, 0, 0.25);
-  padding: 1rem;
-  border-radius: var(--radius-md);
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: var(--color-text-muted);
-}
-
+/* Playlist Curriculum Drawer */
 .video-playlist-aside {
-  padding: 1.25rem;
+  width: 340px;
+  max-width: 100%;
+  padding: 1.5rem;
+  background-color: var(--board-surface);
+  border: 1px solid var(--board-border);
+  border-radius: var(--radius-lg);
   position: sticky;
-  top: 5rem;
+  top: 5.5rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .video-playlist-header {
   margin-bottom: 1rem;
-  border-bottom: 1px solid var(--color-border);
-  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--board-border);
+  padding-bottom: 0.85rem;
 }
 
 .video-playlist-kicker {
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  color: var(--color-warning);
+  color: var(--chalk-yellow);
   letter-spacing: 0.05em;
 }
 
 .video-playlist-title {
   font-size: 1.15rem;
+  font-weight: 700;
   margin: 0.25rem 0;
+  color: var(--chalk-white);
 }
 
 .video-playlist-link {
-  color: var(--color-text);
+  color: var(--chalk-white);
+  transition: color var(--transition-fast);
+}
+
+.video-playlist-link:hover {
+  color: var(--chalk-yellow);
 }
 
 .video-playlist-meta {
-  color: var(--color-text-dim);
+  color: var(--chalk-muted);
   font-size: 0.8rem;
   margin: 0;
 }
@@ -883,9 +1156,10 @@
 .video-playlist-items-list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
   max-height: 520px;
   overflow-y: auto;
+  padding-right: 0.25rem;
 }
 
 .video-playlist-item-link {
@@ -894,28 +1168,35 @@
   gap: 0.75rem;
   padding: 0.65rem 0.85rem;
   border-radius: var(--radius-md);
-  background-color: rgba(255, 255, 255, 0.02);
+  background-color: var(--board-surface-light);
   border: 1px solid transparent;
   text-decoration: none;
-  color: var(--color-text);
-  transition: background-color 0.15s ease;
+  color: var(--chalk-white);
+  transition: all var(--transition-fast);
+}
+
+.video-playlist-item-link:hover {
+  background-color: rgba(254, 240, 138, 0.08);
+  border-color: rgba(254, 240, 138, 0.25);
+  text-decoration: none;
 }
 
 .video-playlist-item-link.is-current {
-  background-color: rgba(56, 189, 248, 0.15);
-  border-color: var(--color-primary);
-  color: var(--color-primary);
+  background-color: rgba(254, 240, 138, 0.15);
+  border-color: rgba(254, 240, 138, 0.45);
+  color: var(--chalk-yellow);
 }
 
 .video-playlist-item-num {
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  color: var(--color-text-dim);
+  font-weight: 600;
+  color: var(--chalk-muted);
   min-width: 1.5rem;
 }
 
 .video-playlist-item-num.is-current {
-  color: var(--color-primary);
+  color: var(--chalk-yellow);
 }
 
 .video-playlist-item-body {
@@ -926,14 +1207,16 @@
 .video-playlist-item-title {
   font-size: 0.85rem;
   margin: 0;
-  font-weight: 400;
+  font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: var(--chalk-white);
 }
 
 .video-playlist-item-title.is-current {
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--chalk-yellow);
 }
 
 .video-playlist-item-sub {
@@ -945,11 +1228,105 @@
 
 .video-playlist-item-duration {
   font-size: 0.75rem;
-  color: var(--color-text-dim);
+  color: var(--chalk-muted);
 }
 
 .video-playlist-item-done {
   font-size: 0.7rem;
-  color: var(--color-success);
-  font-weight: 600;
+  color: var(--chalk-green);
+  font-weight: 700;
 }
+
+/* ==========================================================================
+   CLS Optimization & Component Loading Skeletons
+   ========================================================================== */
+
+@keyframes studio-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.video-skeleton-root {
+  width: 100%;
+}
+
+.video-skeleton-player {
+  background: linear-gradient(90deg, #15191C 25%, #1F2428 50%, #15191C 75%);
+  background-size: 200% 100%;
+  animation: studio-shimmer 1.8s infinite ease-in-out;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  border-radius: var(--radius-md);
+}
+
+.video-skeleton-line {
+  height: 14px;
+  background: linear-gradient(90deg, #242A2E 25%, #2D343A 50%, #242A2E 75%);
+  background-size: 200% 100%;
+  animation: studio-shimmer 1.8s infinite ease-in-out;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.65rem;
+  width: 100%;
+}
+
+.video-skeleton-pill {
+  display: inline-block;
+  height: 20px;
+  background: linear-gradient(90deg, #242A2E 25%, #2D343A 50%, #242A2E 75%);
+  background-size: 200% 100%;
+  animation: studio-shimmer 1.8s infinite ease-in-out;
+  border-radius: var(--radius-full);
+}
+
+.skeleton-pill-sm { width: 70px; }
+.skeleton-pill-md { width: 130px; }
+.skeleton-pill-lg { width: 220px; }
+
+.skeleton-badge-skill { width: 110px; height: 24px; }
+.skeleton-badge-duration { width: 80px; height: 24px; }
+.skeleton-btn-action { width: 100px; height: 32px; border-radius: var(--radius-sm); }
+
+.skeleton-line-playback { width: 60%; height: 16px; margin: 0; }
+.skeleton-line-title { width: 85%; height: 28px; margin: 0.5rem 0; border-radius: var(--radius-sm); }
+.skeleton-line-title-sub { width: 55%; height: 20px; margin-bottom: 1.5rem; }
+
+.video-skeleton-tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.video-skeleton-tab {
+  width: 90px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  background: #242A2E;
+}
+
+.video-skeleton-tab.active {
+  background: rgba(214, 179, 106, 0.2);
+  border: 1px solid rgba(214, 179, 106, 0.4);
+}
+
+.skeleton-line-h3 { width: 35%; height: 20px; margin-bottom: 1rem; }
+.skeleton-line-75 { width: 75%; }
+.skeleton-line-90 { width: 90%; }
+
+.skeleton-line-kicker { width: 40%; height: 12px; }
+.skeleton-line-aside-title { width: 80%; height: 22px; margin: 0.5rem 0; }
+.skeleton-line-aside-meta { width: 30%; height: 14px; margin-bottom: 1.25rem; }
+
+.video-skeleton-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  pointer-events: none;
+}
+
+.skeleton-item-num { width: 24px; height: 16px; border-radius: var(--radius-xs); }
+.skeleton-item-title { width: 85%; height: 14px; margin-bottom: 0.35rem; }
+.skeleton-item-sub { width: 45%; height: 12px; margin: 0; }

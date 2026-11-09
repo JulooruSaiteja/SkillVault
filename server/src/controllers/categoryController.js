@@ -1,7 +1,36 @@
 import { Category } from '../models/Category.js';
 import { Skill } from '../models/Skill.js';
+import { Playlist } from '../models/Playlist.js';
+import { Video } from '../models/Video.js';
 import { ApiError } from '../utils/ApiError.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
+
+/**
+ * Retrieve public, informational platform statistics.
+ * Exposes total active categories, skills, playlists, and videos.
+ * Publicly viewable by all learners without administrative controls.
+ */
+export async function getPublicStats(req, res, next) {
+  try {
+    const [categories, skills, playlists, videos] = await Promise.all([
+      Category.countDocuments({ isActive: true }),
+      Skill.countDocuments({ isActive: true }),
+      Playlist.countDocuments({ isActive: true }),
+      Video.countDocuments({ isActive: true })
+    ]);
+
+    return ApiResponse.ok(res, 'Public platform statistics retrieved successfully', {
+      stats: {
+        categories,
+        skills,
+        playlists,
+        videos
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+}
 
 /**
  * List all active categories.

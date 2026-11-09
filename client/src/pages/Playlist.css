@@ -1,33 +1,40 @@
-/* Playlist Page Styles */
+/* ==========================================================================
+   Playlist Curriculum Page Styles – Digital Classroom Track
+   Unified Studio Palette (#111315 / #1B1F22 / #242A2E / #D6B36A)
+   ========================================================================== */
 
 .playlist-loading {
   text-align: center;
-  padding: 4rem 1rem;
+  padding: 5rem 1rem;
 }
 
 .playlist-loading-text {
-  color: var(--color-text-muted);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-family: var(--font-body);
 }
 
 .playlist-error-banner {
-  max-width: 600px;
+  max-width: 560px;
   margin: 3rem auto;
-  padding: 1.5rem;
+  padding: 1.75rem;
   border-radius: var(--radius-md);
-  background-color: rgba(239, 68, 68, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background-color: var(--error-red-bg);
+  border: 1px solid var(--error-red-border);
   text-align: center;
 }
 
 .playlist-error-title {
-  font-size: 1.25rem;
-  color: var(--color-danger, #f87171);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--error-red);
   margin-bottom: 0.75rem;
 }
 
 .playlist-error-msg {
-  color: var(--color-text-muted);
+  color: var(--text-secondary);
   margin-bottom: 1.5rem;
+  font-size: 0.95rem;
 }
 
 .playlist-error-actions {
@@ -36,101 +43,119 @@
   justify-content: center;
 }
 
+/* Playlist Header Card */
 .playlist-header-card {
-  padding: 2rem;
-  margin-bottom: 2rem;
+  padding: 2.25rem;
+  margin-bottom: 2.5rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
 }
 
 .playlist-meta-row {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
   flex-wrap: wrap;
 }
 
 .playlist-curated-badge {
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-warning);
-  background-color: rgba(251, 191, 36, 0.1);
+  color: var(--accent-gold);
+  background-color: var(--accent-gold-bg);
+  border: 1px solid var(--accent-gold-border);
   padding: 0.2rem 0.6rem;
   border-radius: var(--radius-sm);
 }
 
 .playlist-skill-tag {
   font-size: 0.8rem;
-  color: var(--color-text-muted);
-  background-color: rgba(255, 255, 255, 0.05);
-  padding: 0.2rem 0.6rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-color);
+  padding: 0.2rem 0.65rem;
   border-radius: var(--radius-sm);
   text-decoration: none;
+  transition: all var(--transition-fast);
 }
 
 .playlist-skill-tag:hover {
-  color: var(--color-text);
+  background-color: var(--bg-hover);
+  color: var(--accent-gold);
+  border-color: var(--accent-gold);
   text-decoration: none;
 }
 
 .playlist-skill-icon {
-  margin-right: 0.3rem;
+  margin-right: 0.35rem;
 }
 
 .playlist-external-id {
   font-size: 0.75rem;
-  color: var(--color-text-dim);
+  color: var(--text-muted);
   font-family: var(--font-mono);
 }
 
 .playlist-title {
-  font-size: 1.85rem;
-  margin: 0 0 0.75rem 0;
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin: 0 0 0.85rem 0;
+  color: var(--text-primary);
 }
 
 .playlist-description {
-  color: var(--color-text-muted);
-  font-size: 1rem;
-  max-width: 850px;
-  margin-bottom: 1.5rem;
-  line-height: 1.6;
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  max-width: 860px;
+  margin-bottom: 2rem;
+  line-height: 1.65;
 }
 
+/* Progress Box */
 .playlist-progress-box {
-  background-color: rgba(15, 23, 42, 0.6);
-  border: 1px solid var(--color-border);
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 1.25rem;
+  padding: 1.35rem 1.5rem;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .playlist-progress-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.65rem;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .playlist-progress-title-row {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.65rem;
 }
 
 .playlist-progress-title {
-  font-weight: 600;
   font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .playlist-completed-badge {
   font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-success);
-  background-color: rgba(52, 211, 153, 0.15);
-  padding: 0.15rem 0.5rem;
-  border-radius: var(--radius-sm);
+  font-weight: 700;
+  color: var(--success-green);
+  background-color: var(--success-green-bg);
+  border: 1px solid var(--success-green-border);
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-full);
 }
 
 .playlist-progress-stats {
@@ -138,71 +163,84 @@
   align-items: center;
   gap: 1rem;
   font-size: 0.85rem;
+  color: var(--text-secondary);
 }
 
 .playlist-progress-count {
-  color: var(--color-text-muted);
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .playlist-progress-duration {
-  color: var(--color-text-dim);
+  color: var(--text-muted);
 }
 
 .playlist-progress-track {
   width: 100%;
   height: 8px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-sidebar);
   border-radius: var(--radius-full);
   overflow: hidden;
+  border: 1px solid var(--border-color);
 }
 
 .playlist-progress-fill {
   height: 100%;
-  background-color: var(--color-primary);
+  background-color: var(--accent-gold);
   border-radius: var(--radius-full);
   transition: width 0.3s ease;
 }
 
 .playlist-progress-fill.is-complete {
-  background-color: var(--color-success);
+  background-color: var(--success-green);
 }
 
 .playlist-signin-prompt {
-  color: var(--color-text-dim);
-  font-size: 0.8rem;
-  margin: 0.75rem 0 0 0;
+  margin-top: 0.85rem;
+  font-size: 0.825rem;
+  color: var(--text-secondary);
 }
 
+.playlist-signin-prompt a {
+  font-weight: 600;
+  color: var(--accent-gold);
+  text-decoration: underline;
+}
+
+/* Curriculum Lessons Section */
 .playlist-lessons-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
   margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.85rem;
 }
 
 .playlist-lessons-title {
   font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
   margin: 0;
+  letter-spacing: -0.015em;
 }
 
 .playlist-start-btn {
-  font-size: 0.9rem;
-  padding: 0.45rem 1rem;
+  padding: 0.55rem 1.25rem;
 }
 
 .playlist-empty-card {
+  padding: 2.5rem;
   text-align: center;
-  padding: 3rem 1.5rem;
-  color: var(--color-text-muted);
-}
-
-.playlist-empty-card p {
-  margin: 0;
+  background-color: var(--bg-card);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-lg);
 }
 
 .playlist-empty-back-btn {
   margin-top: 1rem;
-  display: inline-block;
 }
 
 .playlist-lessons-list {
@@ -215,16 +253,23 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.15rem 1.5rem;
+  padding: 1.25rem 1.5rem;
   gap: 1.25rem;
-  flex-wrap: wrap;
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  transition: all var(--transition-fast);
+}
+
+.playlist-video-item:hover {
+  border-color: var(--accent-gold);
+  background-color: var(--bg-hover);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
 }
 
 .playlist-video-item.is-completed {
-  background-color: rgba(52, 211, 153, 0.03);
-  border-color: rgba(52, 211, 153, 0.25);
+  border-left: 4px solid var(--success-green);
 }
 
 .playlist-video-meta {
@@ -232,60 +277,160 @@
   align-items: center;
   gap: 1.25rem;
   flex: 1;
-  min-width: 260px;
+  min-width: 240px;
 }
 
 .playlist-video-index {
   font-family: var(--font-mono);
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--color-text-dim);
-  min-width: 2rem;
-}
-
-.playlist-video-item.is-completed .playlist-video-index {
-  color: var(--color-success);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  background-color: var(--accent-gold-bg);
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--radius-xs);
+  min-width: 2.2rem;
+  text-align: center;
+  border: 1px solid var(--accent-gold-border);
 }
 
 .playlist-video-title {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
+  font-weight: 600;
   margin: 0 0 0.35rem 0;
 }
 
 .playlist-video-title a {
-  color: var(--color-text);
+  color: var(--text-primary);
+  transition: color var(--transition-fast);
+}
+
+.playlist-video-title a:hover {
+  color: var(--accent-gold);
+  text-decoration: underline;
 }
 
 .playlist-video-details {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
+  gap: 0.75rem;
   font-size: 0.8rem;
   flex-wrap: wrap;
 }
 
 .playlist-video-duration {
-  color: var(--color-text-muted);
-}
-
-.playlist-video-transcript {
-  color: var(--color-success);
-  font-weight: 500;
-}
-
-.playlist-video-fallback {
-  color: var(--color-text-dim);
+  color: var(--text-muted);
 }
 
 .playlist-video-completed-tag {
-  color: var(--color-success);
-  font-weight: 600;
-  background-color: rgba(52, 211, 153, 0.1);
+  color: var(--success-green);
+  font-weight: 700;
+  font-size: 0.75rem;
+  background-color: var(--success-green-bg);
+  border: 1px solid var(--success-green-border);
   padding: 0.1rem 0.45rem;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xs);
 }
 
 .playlist-video-action-btn {
-  font-size: 0.85rem;
   padding: 0.45rem 1rem;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .playlist-header-card {
+    padding: 1.5rem;
+  }
+
+  .playlist-title {
+    font-size: 1.75rem;
+  }
+
+  .playlist-video-item {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem;
+  }
+
+  .playlist-video-action-btn {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
+
+/* ==========================================================================
+   Playlist Skeleton Loading Styles
+   ========================================================================== */
+
+.playlist-skeleton-root {
+  width: 100%;
+}
+
+.playlist-skeleton-pill {
+  display: inline-block;
+  height: 20px;
+  background: linear-gradient(90deg, #242A2E 25%, #2D343A 50%, #242A2E 75%);
+  background-size: 200% 100%;
+  animation: studio-shimmer 1.8s infinite ease-in-out;
+  border-radius: var(--radius-full);
+}
+
+.playlist-skeleton-line {
+  height: 14px;
+  background: linear-gradient(90deg, #242A2E 25%, #2D343A 50%, #242A2E 75%);
+  background-size: 200% 100%;
+  animation: studio-shimmer 1.8s infinite ease-in-out;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.65rem;
+  width: 100%;
+}
+
+.playlist-skeleton-card {
+  min-height: 180px;
+}
+
+.playlist-skeleton-line.skeleton-title {
+  height: 32px;
+  width: 70%;
+  margin: 0.85rem 0 1rem;
+}
+
+.playlist-skeleton-line.skeleton-desc {
+  width: 90%;
+}
+
+.playlist-skeleton-line.skeleton-desc-short {
+  width: 60%;
+}
+
+.playlist-skeleton-line.skeleton-section-header {
+  height: 24px;
+  width: 200px;
+  margin: 1.5rem 0 1rem;
+}
+
+.playlist-skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.skeleton-row-num {
+  width: 28px;
+  height: 20px;
+  border-radius: var(--radius-xs);
+}
+
+.skeleton-row-title {
+  width: 65%;
+  height: 16px;
+  margin-bottom: 0.35rem;
+}
+
+.skeleton-row-sub {
+  width: 30%;
+  height: 12px;
+  margin: 0;
 }

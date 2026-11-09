@@ -56,7 +56,7 @@ export function SkillDetail() {
         <div className="card">
           <h2 className="skill-not-found-title">Skill Not Found</h2>
           <p className="skill-not-found-msg">
-            {error || `We could not find any active computing skill matching "${skillSlug}".`}
+            {error || `We could not find any active skill matching "${skillSlug}".`}
           </p>
           <div className="skill-not-found-actions">
             {error && (
@@ -173,11 +173,6 @@ export function SkillDetail() {
                     </h3>
                     <div className="skill-video-details">
                       <span className="skill-video-duration">⏱️ {formatDuration(video.durationSeconds)}</span>
-                      {video.hasTranscript ? (
-                        <span className="skill-video-transcript-badge">✓ Transcript Available</span>
-                      ) : (
-                        <span className="skill-video-fallback-badge">Metadata Fallback</span>
-                      )}
                     </div>
                   </div>
                 </div>

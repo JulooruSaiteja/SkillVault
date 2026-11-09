@@ -1,32 +1,60 @@
-/* 404 Not Found Page Styles */
+/* ==========================================================================
+   SkillVault - 404 Not Found Page Styles
+   Digital Classroom Chalkboard 404
+   Unified Studio Palette (#111315 / #1B1F22 / #D6B36A)
+   ========================================================================== */
 
 .not-found-container {
   text-align: center;
-  padding: 4rem 1.5rem;
-  max-width: 600px;
-  margin: 0 auto;
+  padding: 5rem 2rem;
+  max-width: 580px;
+  margin: 3rem auto;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
 }
 
 .not-found-code {
-  font-size: 5rem;
-  font-weight: 900;
-  color: var(--color-primary);
+  font-size: 5.5rem;
+  font-weight: 800;
+  color: var(--accent-gold);
   line-height: 1;
-  margin-bottom: 1rem;
-  font-family: var(--font-mono);
+  margin-bottom: 0.5rem;
+  font-family: var(--font-heading);
+  letter-spacing: -0.03em;
+}
+
+.not-found-container .page-title {
+  color: var(--text-primary);
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin: 0.5rem 0;
+  font-family: var(--font-heading);
 }
 
 .not-found-desc {
-  margin: 1rem 0;
+  margin: 1rem 0 2rem;
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
 }
 
 .not-found-code-badge {
-  color: var(--color-primary);
-  background-color: var(--color-surface);
-  padding: 0.2rem 0.4rem;
+  color: var(--accent-gold);
+  background-color: var(--accent-gold-bg);
+  border: 1px solid var(--accent-gold-border);
+  padding: 0.2rem 0.55rem;
   border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 .not-found-actions {
   margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }

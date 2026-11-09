@@ -1,24 +1,40 @@
-/* ProtectedRoute Styles */
+/* ==========================================================================
+   ProtectedRoute Styles
+   ========================================================================== */
+
 .auth-loading-state {
-  padding: 4rem 1rem;
+  padding: 5rem 1rem;
   text-align: center;
 }
 
 .auth-loading-text {
-  color: var(--color-text-muted);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-family: var(--font-body);
 }
 
 .access-denied-container {
-  max-width: 600px;
-  margin: 3rem auto;
+  max-width: 540px;
+  margin: 4rem auto;
   text-align: center;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 2.5rem 1.75rem;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
 }
 
 .access-denied-title {
-  color: var(--color-danger, #e53e3e);
+  color: var(--error-red);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-heading);
 }
 
 .access-denied-message {
-  margin: 1rem 0;
-  color: var(--color-text-muted);
+  margin: 0.75rem 0 1.5rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
