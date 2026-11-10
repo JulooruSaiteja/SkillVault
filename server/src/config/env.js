@@ -97,6 +97,15 @@ const config = {
   get geminiQuizDailyBudget() {
     const parsed = parseInt(process.env.GEMINI_QUIZ_DAILY_BUDGET, 10);
     return Number.isFinite(parsed) && parsed > 0 ? parsed : 500;
+  },
+  get adminName() {
+    return process.env.ADMIN_NAME || 'SkillVault Administrator';
+  },
+  get adminEmail() {
+    return process.env.ADMIN_EMAIL ? process.env.ADMIN_EMAIL.trim().toLowerCase() : null;
+  },
+  get adminPassword() {
+    return process.env.ADMIN_PASSWORD || null;
   }
 };
 

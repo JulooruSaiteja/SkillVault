@@ -12,7 +12,7 @@ if (process.argv[1] && process.argv[1].endsWith('seedAdmin.js')) {
       process.exit(0);
     })
     .catch((err) => {
-      console.error('[SeedAdmin] Failed:', err);
+      console.error('[SeedAdmin] Failed:', err.message);
       process.exit(1);
     });
 }
